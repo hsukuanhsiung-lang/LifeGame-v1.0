@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -140,7 +141,11 @@ textarea.m-inp{resize:none;min-height:80px}
 .daily-prog-sub{font-size:12px;color:var(--text2);margin-top:2px}
 
 .daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 8px}
-.dcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;position:relative;-webkit-user-select:none;user-select:none;transition:border-color .15s}
+.dcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;position:relative;-webkit-user-select:none;user-select:none;transition:border-color .15s,opacity .2s,transform .2s}
+.dcard.dragging{opacity:.4;transform:scale(.97)}
+.dcard-del{position:absolute;bottom:10px;right:10px;width:22px;height:22px;border-radius:6px;background:#ff3b3022;border:1px solid #ff3b3066;color:#ff3b30;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;line-height:1}
+.fcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;-webkit-user-select:none;user-select:none;transition:border-color .15s,opacity .2s}
+.fcard-del{position:absolute;bottom:10px;right:10px;width:22px;height:22px;border-radius:6px;background:#ff3b3022;border:1px solid #ff3b3066;color:#ff3b30;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;line-height:1}
 .dcard.done{background:var(--grd);border-color:var(--gr)}
 .dcard.fail{background:var(--rdd);border-color:var(--rd)}
 .dcard-ic{font-size:26px;margin-bottom:6px}
@@ -154,8 +159,8 @@ textarea.m-inp{resize:none;min-height:80px}
 .strk-win{background:#ff950018;color:var(--accent);border-color:var(--accent)}
 .strk-lose{background:#007aff18;color:var(--bl);border-color:var(--bl)}
 
-.fcard{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;-webkit-user-select:none;user-select:none;transition:border-color .15s}
-.fcard.violated{background:var(--rdd);border-color:var(--rd)}
+.fcard.violated{background:var(--rdd);border-color:var(--rd);position:relative}
+.fcard{position:relative}
 .fcard-ic{font-size:24px;margin-bottom:6px}
 .fcard-name{font-size:14px;font-weight:700}
 .fcard-days{font-size:11px;color:var(--text2);margin-top:4px}
@@ -166,6 +171,11 @@ textarea.m-inp{resize:none;min-height:80px}
 .task-tab{border:1.5px solid var(--border2);border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer;background:none;color:var(--text2);outline:none;white-space:nowrap;-webkit-user-select:none;user-select:none}
 .task-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
 .task-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:0 12px 8px;display:flex;gap:10px;align-items:flex-start}
+.subtask-list{margin:6px 0 2px 30px;display:flex;flex-direction:column;gap:5px}
+.subtask-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
+.subtask-chk{width:16px;height:16px;border:1.5px solid var(--border2);border-radius:4px;flex-shrink:0;cursor:pointer;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:10px}
+.subtask-chk.done{background:var(--gr);border-color:var(--gr);color:#fff}
+.subtask-add{font-size:12px;color:var(--accent);cursor:pointer;margin:4px 0 2px 30px;display:inline-block}
 .task-card.done-card{opacity:.5}
 .task-chk{width:20px;height:20px;border:1.5px solid var(--border2);border-radius:6px;flex-shrink:0;margin-top:1px;cursor:pointer;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:12px;-webkit-user-select:none;user-select:none}
 .task-chk.done{background:var(--gr);border-color:var(--gr);color:#fff}
@@ -179,19 +189,81 @@ textarea.m-inp{resize:none;min-height:80px}
 .task-del-btn{font-size:18px;color:var(--text3);cursor:pointer;padding:0 2px;line-height:1;-webkit-user-select:none;user-select:none}
 
 /* ==================== ATTRIBUTES ==================== */
-.attr-hero{background:var(--bg2);border:1px solid var(--border);border-radius:14px;margin:8px 12px;padding:20px;text-align:center}
-.attr-hero-icon{font-size:60px;line-height:1;margin-bottom:8px}
-.attr-hero-name{font-size:22px;font-weight:800}
-.attr-hero-title{font-size:13px;color:var(--text2);margin-top:4px}
-.attr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 8px}
-.attr-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px}
-.attr-card.wide{grid-column:1/-1}
-.attr-icon{font-size:22px;margin-bottom:4px}
-.attr-name{font-size:11px;color:var(--text2);margin-bottom:4px}
-.attr-val{font-size:28px;font-weight:800;line-height:1}
-.attr-bar-bg{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:8px}
-.attr-bar-fill{height:100%;border-radius:2px;transition:width .4s}
-.attr-today{font-size:11px;color:var(--text3);margin-top:4px}
+/* RPG Character Panel */
+.attr-page-wrap{padding:8px 12px 20px}
+
+/* Character Card */
+.char-panel{background:linear-gradient(145deg,#1a1a2e,#16213e);border-radius:20px;padding:20px 16px;margin-bottom:12px;position:relative;overflow:hidden}
+.char-panel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#ffffff08 0%,transparent 60%);pointer-events:none}
+.char-panel-top{display:flex;align-items:flex-start;gap:14px}
+
+/* Character figure — CSS drawn */
+.char-figure{flex-shrink:0;position:relative;width:90px;height:110px}
+.char-body-wrap{position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+/* Glow ring under feet */
+.char-glow{width:60px;height:12px;background:radial-gradient(ellipse,var(--glow-c,#ff9500) 0%,transparent 70%);position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);opacity:.6}
+/* Cape */
+.char-cape{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:44px;height:52px;background:var(--cape-c,#4a4a8a);border-radius:4px 4px 14px 14px;z-index:1}
+.char-cape::after{content:'';position:absolute;bottom:0;left:4px;right:4px;height:20px;background:var(--cape-dark,#2a2a5a);border-radius:0 0 10px 10px}
+/* Body/armor */
+.char-torso{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);width:36px;height:38px;background:var(--armor-c,#5a5a8a);border-radius:8px 8px 4px 4px;z-index:2;display:flex;align-items:center;justify-content:center}
+.char-torso::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:16px;height:10px;background:var(--armor-gem,#aaaacc);border-radius:3px;opacity:.7}
+/* Arms */
+.char-arm-l,.char-arm-r{position:absolute;bottom:38px;width:12px;height:30px;background:var(--armor-c,#5a5a8a);border-radius:6px;z-index:2}
+.char-arm-l{left:calc(50% - 26px);transform:rotate(10deg);transform-origin:top center}
+.char-arm-r{left:calc(50% + 14px);transform:rotate(-10deg);transform-origin:top center}
+/* Weapon */
+.char-weapon{position:absolute;bottom:28px;left:calc(50% + 20px);width:6px;height:44px;background:linear-gradient(180deg,#ffd700,#ff8c00);border-radius:3px;z-index:3;box-shadow:0 0 8px #ffd70066}
+.char-weapon::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:14px;height:14px;background:radial-gradient(circle,#fff,#ffd700);border-radius:50%;box-shadow:0 0 10px #ffd700}
+/* Shield */
+.char-shield{position:absolute;bottom:32px;left:calc(50% - 36px);width:18px;height:22px;background:linear-gradient(135deg,#4a9eff,#0055cc);border-radius:4px 4px 6px 6px;z-index:3;border:2px solid #88ccff;box-shadow:0 0 8px #4a9eff44}
+.char-shield::after{content:'✦';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:10px}
+/* Legs */
+.char-legs-wrap{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:2}
+.char-leg{width:14px;height:24px;background:var(--leg-c,#3a3a6a);border-radius:4px 4px 6px 6px}
+/* Boots */
+.char-leg::after{content:'';display:block;width:16px;height:8px;background:var(--boot-c,#2a1a0a);border-radius:2px 2px 4px 4px;margin-top:16px;margin-left:-1px}
+/* Head */
+.char-head-wrap{position:absolute;bottom:64px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center}
+.char-face{width:32px;height:32px;background:var(--skin-c,#ffc896);border-radius:50%;border:2px solid #c8955a;display:flex;align-items:center;justify-content:center;font-size:14px}
+/* Helmet */
+.char-helmet{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:34px;height:20px;background:var(--armor-c,#5a5a8a);border-radius:8px 8px 0 0;border:1px solid var(--armor-gem,#aaaacc)}
+.char-helmet::after{content:'';position:absolute;top:2px;left:50%;transform:translateX(-50%);width:4px;height:10px;background:var(--cape-c,#cc3333);border-radius:2px}
+/* Level badge */
+.char-lvl-badge{position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#ffd700,#ff8c00);border-radius:12px;padding:4px 10px;font-size:12px;font-weight:800;color:#1a0a00;box-shadow:0 2px 8px #ffd70066}
+/* Player info */
+.char-info{flex:1}
+.char-name{font-size:20px;font-weight:800;color:#fff;margin-bottom:2px}
+.char-title-badge{display:inline-block;background:#ffffff18;border:1px solid #ffffff30;border-radius:10px;padding:3px 10px;font-size:11px;color:#ffcc88;margin-bottom:10px}
+.char-day{font-size:11px;color:#ffffff60;margin-bottom:12px}
+/* EXP bar */
+.char-exp-label{font-size:10px;color:#ffffff60;margin-bottom:4px}
+.char-exp-bar{height:8px;background:#ffffff18;border-radius:4px;overflow:hidden;margin-bottom:12px}
+.char-exp-fill{height:100%;background:linear-gradient(90deg,#ffd700,#ff8c00);border-radius:4px;transition:width .5s}
+/* Mini stat pills */
+.char-stats-row{display:flex;flex-wrap:wrap;gap:4px}
+.char-stat-pill{background:#ffffff12;border:1px solid #ffffff20;border-radius:8px;padding:3px 8px;font-size:10px;color:#ffffffcc;display:flex;align-items:center;gap:3px}
+
+/* Equipment slots row */
+.equip-row{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.equip-row::-webkit-scrollbar{display:none}
+.equip-slot{flex-shrink:0;width:52px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.equip-box{width:48px;height:48px;background:#ffffff0e;border:1.5px solid #ffffff22;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;position:relative;transition:all .2s}
+.equip-box.unlocked{border-color:var(--equip-c,#ffd700);background:var(--equip-bg,#ffd70015);box-shadow:0 0 10px var(--equip-glow,#ffd70040)}
+.equip-box.locked{filter:grayscale(.8);opacity:.4}
+.equip-box .equip-lv{position:absolute;bottom:2px;right:4px;font-size:8px;font-weight:800;color:var(--equip-c,#ffd700)}
+.equip-label{font-size:9px;color:#ffffff60;text-align:center}
+
+/* Attribute cards */
+.attr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0}
+.attr-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px}
+.attr-card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.attr-icon{font-size:20px}
+.attr-name{font-size:12px;color:var(--text2);font-weight:600}
+.attr-val{font-size:26px;font-weight:800;line-height:1;margin-bottom:6px}
+.attr-bar-bg{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.attr-bar-fill{height:100%;border-radius:3px;transition:width .5s}
+.attr-today{font-size:10px;color:var(--text3);margin-top:4px}
 
 /* ==================== MEMORY CENTER ==================== */
 .mem-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;margin:0 12px 8px}
@@ -285,8 +357,10 @@ textarea.m-inp{resize:none;min-height:80px}
 
   <!-- ATTRIBUTES PAGE -->
   <div class="page" id="pg-attr">
-    <div id="attr-hero-wrap"></div>
-    <div class="attr-grid" id="attr-grid"></div>
+    <div class="attr-page-wrap">
+      <div id="attr-hero-wrap"></div>
+      <div class="attr-grid" id="attr-grid"></div>
+    </div>
   </div>
 
   <!-- MEMORY PAGE -->
@@ -361,7 +435,7 @@ var DEF_SUBS={
 function mkDef(){
   var today=tod();
   return{
-    v:'base1',
+    v:'1.2',
     startDate:today,
     playerName:'玩家',
     aiMsgs:[{r:'ai',t:'欢迎来到人生游戏！🎮\n\n我是你的向导。直接告诉我你做了什么，比如「健身了1小时」「读书30分钟」，我会帮你记录并计算属性。\n\n你叫什么名字？',ts:fmtT(new Date())}],
@@ -387,7 +461,7 @@ function mkDef(){
       {id:'f3',ic:'🎮',n:'戒游戏',st:'p',lastCheck:'',winStreak:0,loseStreak:0},
     ],
     tasks:[
-      {id:'t1',n:'完成Life Game基础版',sub:'',type:'main',period:'today',done:false,delayed:false,date:today},
+      {id:'t1',n:'完成Life Game基础版',sub:'',type:'main',period:'today',done:false,delayed:false,date:today,subtasks:[]},
     ],
     mems:[],
     taskTab:'all',
@@ -395,21 +469,39 @@ function mkDef(){
 }
 
 var S=null;
-try{S=JSON.parse(localStorage.getItem('lgbase')||'null');}catch(e){}
-if(!S||S.v!=='base1'){
-  var old=S;S=mkDef();
-  if(old){
-    if(old.playerName)S.playerName=old.playerName;
-    if(old.startDate)S.startDate=old.startDate;
-    if(old.tl)S.tl=old.tl;
-    if(old.daily&&old.daily.length)S.daily=old.daily;
-    if(old.forbid&&old.forbid.length)S.forbid=old.forbid;
-    if(old.tasks&&old.tasks.length)S.tasks=old.tasks;
-    if(old.mems&&old.mems.length)S.mems=old.mems;
-    if(old.catSubs)S.catSubs=old.catSubs;
-  }
+// Try all previous keys for migration
+var _KEYS=['lifegame','lgbase','lg11','lg12'];
+for(var _ki=_KEYS.length-1;_ki>=0&&!S;_ki--){
+  try{var _d=localStorage.getItem(_KEYS[_ki]);if(_d)S=JSON.parse(_d);}catch(e){}
 }
-function sv(){try{localStorage.setItem('lgbase',JSON.stringify(S));}catch(e){}}
+// Migrate or init
+if(!S){S=mkDef();}
+else{
+  // Patch missing fields from newer versions
+  if(!S.v)S.v='legacy';
+  S.daily=(S.daily||[]).map(function(t){
+    if(!t.hasOwnProperty('winStreak'))t.winStreak=0;
+    if(!t.hasOwnProperty('loseStreak'))t.loseStreak=0;
+    return t;
+  });
+  S.tasks=(S.tasks||[]).map(function(t){
+    if(!t.subtasks)t.subtasks=[];
+    return t;
+  });
+  if(!S.forbid)S.forbid=[];
+  if(!S.mems)S.mems=[];
+  if(!S.catSubs)S.catSubs=JSON.parse(JSON.stringify(DEF_SUBS));
+  if(!S.taskTab)S.taskTab='all';
+  if(!S.tlDate)S.tlDate=tod();
+  if(!S.tlCat)S.tlCat='free';
+  if(!S.tlSub)S.tlSub='work';
+  S.v='1.2';
+}
+function sv(){try{
+  localStorage.setItem('lifegame',JSON.stringify(S));
+  // Clean up old keys
+  _KEYS.slice(0,-1).forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});
+}catch(e){}}
 
 // ============================================================
 // UTILS
@@ -429,6 +521,13 @@ function addDays(ds,n){
   var d=new Date(ds+'T12:00:00');
   d.setDate(d.getDate()+n);
   return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+}
+function fmtNum(n){
+  if(n===0)return '0';
+  var s=n.toFixed(2);
+  // remove trailing zeros after decimal
+  s=s.replace(/\.?0+$/,'');
+  return s;
 }
 function daysSince(ds){
   return Math.floor((new Date()-new Date(ds+'T12:00:00'))/86400000);
@@ -545,7 +644,22 @@ function genResp(text){
     var dayAttr=compDayAttr(tod());
     var hStr=dur>=1?(Math.round(dur*10)/10)+'小时':Math.round(dur*60)+'分钟';
     var attrLine='';
-    ATTRS.forEach(function(a){if(dayAttr[a.k]>0)attrLine+=a.l+' +'+dayAttr[a.k].toFixed(2)+' ';});
+    var attrGained=[];
+    ATTRS.forEach(function(a){
+      if(dayAttr[a.k]>0){
+        attrLine+=a.l+' +'+fmtNum(dayAttr[a.k])+' ';
+        attrGained.push(a.ic+a.l+'+'+fmtNum(catObj&&catObj.attr[a.k]?(catObj.attr[a.k]*dur):0));
+      }
+    });
+    // Auto-write to memory
+    if(!S.mems)S.mems=[];
+    S.mems.push({
+      id:'m'+Date.now(),date:tod(),ts:fmtT(new Date()),
+      text:act.l+' '+hStr,
+      tags:[(catObj?catObj.l:'活动'),hStr],
+      attrGained:attrGained
+    });
+    sv();
     return '✅ 已记录！\n\n'+act.l+' · '+hStr+' · 写入'+written+'个格子\n\n今日属性：\n'+attrLine;
   }
   if(act&&!dur){
@@ -701,10 +815,45 @@ function tlToggleEarly(){tlShowEarly=!tlShowEarly;renderTLGrid();}
 function togSlot(slot){
   if(!S.tl[S.tlDate])S.tl[S.tlDate]={};
   var g=S.tl[S.tlDate];
+  var wasEmpty=!g[slot];
   if(S.tlCat==='__clear'){delete g[slot];}
   else if(g[slot]&&g[slot].cat===S.tlCat&&g[slot].sub===S.tlSub){delete g[slot];}
   else{g[slot]={cat:S.tlCat,sub:S.tlSub};}
   sv();renderTLGrid();renderTLSum();
+  // Auto-write memory summary once per minute of recording
+  if(wasEmpty&&S.tlCat&&S.tlCat!=='__clear'){
+    var catObj=CATS.find(function(c){return c.k===S.tlCat;});
+    var subObj=(S.catSubs[S.tlCat]||[]).find(function(s){return s.k===S.tlSub;});
+    var label=(subObj?subObj.l:(catObj?catObj.l:'活动'));
+    // Count total slots for this cat/sub today
+    var count=Object.values(g).filter(function(e){return e.cat===S.tlCat&&e.sub===S.tlSub;}).length;
+    var hrs=(count*0.25).toFixed(2).replace(/\.?0+$/,'');
+    // Update or create memory entry for this activity today
+    var memKey=S.tlDate+'|'+S.tlCat+'|'+S.tlSub;
+    if(!S.mems)S.mems=[];
+    var existing=S.mems.find(function(m){return m.memKey===memKey;});
+    var attrGained=[];
+    if(catObj&&catObj.attr){
+      ATTRS.forEach(function(a){
+        if(catObj.attr[a.k]){
+          attrGained.push(a.ic+a.l+'+'+fmtNum(catObj.attr[a.k]*count*0.25));
+        }
+      });
+    }
+    if(existing){
+      existing.text=label+' '+hrs+'小时';
+      existing.attrGained=attrGained;
+      existing.ts=fmtT(new Date());
+    }else{
+      S.mems.push({
+        id:'m'+Date.now(),memKey:memKey,date:S.tlDate,
+        ts:fmtT(new Date()),text:label+' '+hrs+'小时',
+        tags:[catObj?catObj.l:'活动',hrs+'小时'],
+        attrGained:attrGained
+      });
+    }
+    sv();
+  }
 }
 
 function renderTLSum(){
@@ -783,7 +932,7 @@ function renderDaily(){
     var chk=t.st==='d'?'✓':t.st==='f'?'✗':'';
     var strk='';
     if(t.winStreak>0)strk='<div class="dcard-strk"><span class="strk-badge strk-win">🔥'+t.winStreak+'天</span></div>';
-    else if(t.loseStreak>0)strk='<div class="dcard-strk"><span class="strk-badge strk-lose">❄️'+t.loseStreak+'天</span></div>';
+    else if(t.loseStreak>0)strk='<div class="dcard-strk"><span class="strk-badge strk-lose">🧊'+t.loseStreak+'天</span></div>';
     return '<div class="dcard '+(t.st==='d'?'done':t.st==='f'?'fail':'')+'" onclick="cycleTask(\''+t.id+'\',false)" ondblclick="openEditTask(\''+t.id+'\',false)">'
       +'<div class="dcard-chk">'+chk+'</div>'
       +'<div class="dcard-ic">'+t.ic+'</div>'
@@ -831,6 +980,32 @@ function delTask(id,isForbid){
   if(isForbid)S.forbid=(S.forbid||[]).filter(function(x){return x.id!==id;});
   else S.daily=S.daily.filter(function(x){return x.id!==id;});
   sv();closeM();renderDaily();
+}
+
+// ============================================================
+// DAILY DRAG SORT + DELETE
+// ============================================================
+var dlDragId=null,dlIsForbid=false;
+function dlDragStart(e,id,isForbid){
+  dlDragId=id;dlIsForbid=isForbid;
+  setTimeout(function(){var el=document.getElementById((isForbid?'fc-':'dc-')+id);if(el)el.classList.add('dragging');},0);
+}
+function dlDragOver(e){e.preventDefault();}
+function dlDrop(e,targetId,isForbid){
+  e.preventDefault();
+  if(!dlDragId||dlDragId===targetId||dlIsForbid!==isForbid)return;
+  var list=isForbid?(S.forbid||[]):S.daily;
+  var fromIdx=list.findIndex(function(x){return x.id===dlDragId;});
+  var toIdx=list.findIndex(function(x){return x.id===targetId;});
+  if(fromIdx<0||toIdx<0)return;
+  var item=list.splice(fromIdx,1)[0];
+  list.splice(toIdx,0,item);
+  sv();renderDaily();dlDragId=null;
+}
+function delDailyItem(id,isForbid){
+  if(isForbid)S.forbid=(S.forbid||[]).filter(function(x){return x.id!==id;});
+  else S.daily=S.daily.filter(function(x){return x.id!==id;});
+  sv();renderDaily();
 }
 
 // ============================================================
@@ -897,6 +1072,26 @@ function togTask(id){
 }
 function delTaskItem(id){
   S.tasks=S.tasks.filter(function(x){return x.id!==id;});
+  sv();renderTask();
+}
+function addSubtask(taskId){
+  var t=S.tasks.find(function(x){return x.id===taskId;});if(!t)return;
+  var n=prompt('添加子任务：');if(!n||!n.trim())return;
+  if(!t.subtasks)t.subtasks=[];
+  t.subtasks.push({id:'s'+Date.now(),n:n.trim(),done:false});
+  sv();renderTask();
+}
+function togSubtask(taskId,subId){
+  var t=S.tasks.find(function(x){return x.id===taskId;});if(!t||!t.subtasks)return;
+  var s=t.subtasks.find(function(x){return x.id===subId;});if(!s)return;
+  s.done=!s.done;
+  // Auto-complete parent if all subs done
+  if(t.subtasks.length&&t.subtasks.every(function(x){return x.done;}))t.done=true;
+  sv();renderTask();
+}
+function delSubtask(taskId,subId){
+  var t=S.tasks.find(function(x){return x.id===taskId;});if(!t||!t.subtasks)return;
+  t.subtasks=t.subtasks.filter(function(x){return x.id!==subId;});
   sv();renderTask();
 }
 
@@ -1032,3 +1227,4 @@ setInterval(function(){renderHeader();midnightCheck();checkDelayed();},60000);
 </script>
 </body>
 </html>
+
