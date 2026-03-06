@@ -32,8 +32,14 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .day-badge{border:1.5px solid var(--accent);color:var(--accent);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700}
 
 /* NAV */
-#nav{display:flex;background:var(--bg2);border-top:1px solid var(--border);padding:6px 0 10px;flex-shrink:0}
+#nav{display:flex;background:var(--bg2);border-top:1px solid var(--border);padding:4px 0 max(4px,env(safe-area-inset-bottom));flex-shrink:0;transition:background .3s}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:none;background:none;color:var(--text3);font-size:10px;cursor:pointer;padding:2px 0;outline:none;-webkit-user-select:none;user-select:none}
+.nav-btn.active{color:var(--accent)}
+.nav-btn.inner-active{color:#a78bfa}
+.nav-world-bar{display:flex;flex-shrink:0;border-top:1px solid var(--border);background:var(--bg3)}
+.nwb-btn{flex:1;padding:5px 4px;border:none;font-size:11px;font-weight:800;cursor:pointer;letter-spacing:.5px;background:none;color:var(--text3);transition:all .2s}
+.nwb-btn.real-active{background:linear-gradient(90deg,#ff9500,#ff6b00);color:#fff}
+.nwb-btn.inner-active{background:linear-gradient(90deg,#1a0a3a,#2a0a5a);color:#a78bfa;border-color:#4a1a8a}
 .nav-btn .nav-ic{font-size:20px;line-height:1}
 .nav-btn.active{color:var(--accent)}
 
@@ -151,9 +157,9 @@ textarea.m-inp{resize:none;min-height:80px}
 .dcard-ic{font-size:26px;margin-bottom:6px}
 .dcard-name{font-size:14px;font-weight:700;color:var(--text)}
 .dcard-rwd{font-size:11px;color:var(--text2);margin-top:2px}
-.dcard-chk{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px}
-.dcard.done .dcard-chk{background:var(--gr);border-color:var(--gr);color:#fff}
-.dcard.fail .dcard-chk{background:var(--rd);border-color:var(--rd);color:#fff}
+.dcard-chk{display:none}
+.dcard.done .dcard-chk{display:none}
+.dcard.fail .dcard-chk{display:none}
 .dcard-strk{margin-top:6px}
 .strk-badge{display:inline-flex;align-items:center;gap:3px;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:700;border:1px solid}
 .strk-win{background:#ff950018;color:var(--accent);border-color:var(--accent)}
@@ -272,6 +278,382 @@ textarea.m-inp{resize:none;min-height:80px}
 .mem-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
 .mem-tag{background:var(--bg3);border-radius:8px;padding:2px 8px;font-size:11px;color:var(--text2)}
 .mem-empty{text-align:center;color:var(--text3);padding:60px 20px;font-size:13px;line-height:2.2}
+
+/* ==================== TASK DIFFICULTY ==================== */
+.diff-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:.5px;margin-top:4px}
+.diff-E{background:#f0f0f0;color:#666;border:1px solid #ccc}
+.diff-D{background:#e8f5e9;color:#2e7d32;border:1px solid #66bb6a}
+.diff-C{background:#e3f2fd;color:#1565c0;border:1px solid #42a5f5}
+.diff-B{background:#f3e5f5;color:#6a1b9a;border:1px solid #ab47bc}
+.diff-A{background:#fff8e1;color:#e65100;border:1px solid #ffa726}
+.diff-S{background:#ffebee;color:#b71c1c;border:1px solid #ef5350;box-shadow:0 0 6px #ef535040}
+.diff-SS{background:linear-gradient(135deg,#fff0f0,#fff8e1,#f0fff0,#e8f4ff,#f5f0ff);color:#7b1fa2;border:2px solid transparent;background-clip:padding-box;position:relative;overflow:hidden}
+.diff-SS::before{content:'';position:absolute;inset:-1px;background:linear-gradient(135deg,#ff0080,#ff8c00,#40e0d0,#7b68ee,#ff0080);border-radius:6px;z-index:-1;animation:rainbow 3s linear infinite;background-size:200%}
+.diff-SSS{background:#111;color:#fff;border:1px solid #333;box-shadow:0 0 12px #000,inset 0 0 8px #ffffff18}
+@keyframes rainbow{0%{background-position:0%}100%{background-position:200%}}
+
+.task-card.diff-SS-card{background:linear-gradient(135deg,#fff5ff,#fffaf0,#f0fff5);border:2px solid;border-image:linear-gradient(135deg,#ff0080,#ff8c00,#40e0d0,#7b68ee) 1}
+.task-card.diff-SSS-card{background:#0a0a0a;border:1px solid #333}
+.task-card.diff-SSS-card .task-name{color:#fff}
+
+/* ==================== CURRENCY ==================== */
+.currency-bar{display:flex;align-items:center;gap:6px;padding:6px 16px;background:linear-gradient(90deg,#1a1a2e,#16213e);border-radius:10px;margin:0 12px 8px;justify-content:flex-end}
+.currency-item{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700}
+.currency-gold{color:#ffd700}
+.currency-gem{color:#a78bfa}
+
+/* ==================== NEWBIE GUIDE ==================== */
+.newbie-banner{background:linear-gradient(135deg,#ff9500,#ff6b00);border-radius:14px;margin:8px 12px;padding:14px 16px;color:#fff;position:relative;overflow:hidden}
+.newbie-banner::before{content:'🎮';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:48px;opacity:.2}
+.newbie-title{font-size:16px;font-weight:800;margin-bottom:4px}
+.newbie-sub{font-size:12px;opacity:.85;margin-bottom:10px}
+.newbie-progress{height:6px;background:#ffffff30;border-radius:3px;overflow:hidden;margin-bottom:8px}
+.newbie-progress-fill{height:100%;background:#fff;border-radius:3px;transition:width .4s}
+.newbie-skip{font-size:11px;opacity:.7;cursor:pointer;text-decoration:underline}
+
+/* ==================== EQUIPMENT PAGE ==================== */
+.equip-page{padding:8px 12px 20px}
+.equip-hero-card{background:linear-gradient(145deg,#0f0f1a,#1a1a2e);border-radius:20px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;min-height:220px}
+.equip-hero-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#ffffff06,transparent);pointer-events:none}
+
+/* Character figure */
+.char-stage{position:relative;width:120px;height:200px;margin:0 auto 8px;flex-shrink:0}
+/* Body parts */
+.c-head{width:44px;height:44px;border-radius:50%;background:#ffc896;border:2px solid #c8955a;position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:18px;z-index:5}
+.c-helm{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:48px;height:26px;border-radius:10px 10px 0 0;z-index:6;display:flex;align-items:center;justify-content:center;font-size:16px}
+.c-body{width:50px;height:52px;border-radius:8px;position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:3;display:flex;align-items:center;justify-content:center;font-size:20px}
+.c-legs{position:absolute;top:92px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3}
+.c-leg{width:18px;height:40px;border-radius:4px 4px 6px 6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;font-size:10px}
+.c-boots{position:absolute;top:128px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3}
+.c-boot{width:22px;height:16px;border-radius:3px 3px 5px 5px;display:flex;align-items:center;justify-content:center;font-size:10px}
+.c-arm-l{width:14px;height:44px;border-radius:7px;position:absolute;top:46px;left:calc(50% - 36px);z-index:2;display:flex;align-items:center;justify-content:center}
+.c-arm-r{width:14px;height:44px;border-radius:7px;position:absolute;top:46px;left:calc(50% + 22px);z-index:2}
+.c-weapon{position:absolute;top:30px;left:calc(50% + 28px);z-index:7;font-size:24px;line-height:1}
+.c-shield{position:absolute;top:50px;left:calc(50% - 52px);z-index:7;font-size:22px;line-height:1}
+.c-necklace{position:absolute;top:42px;left:50%;transform:translateX(-50%);z-index:8;font-size:14px}
+.c-ring{position:absolute;top:82px;left:calc(50% - 44px);z-index:8;font-size:12px}
+
+/* Equipment slots grid */
+.equip-slots-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.equip-slot-box{background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:10px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;position:relative}
+.equip-slot-box.equipped{border-color:var(--accent);background:#ff950010}
+.equip-slot-box.locked{opacity:.4;cursor:default}
+.equip-slot-ic{font-size:26px;line-height:1}
+.equip-slot-name{font-size:10px;color:var(--text2);text-align:center}
+.equip-slot-item{font-size:10px;color:var(--accent);font-weight:700;text-align:center}
+.equip-lock-ic{position:absolute;top:4px;right:4px;font-size:10px;color:var(--text3)}
+
+/* Stat summary */
+.equip-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.equip-stat-row{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.equip-stat-ic{font-size:18px}
+.equip-stat-info{flex:1}
+.equip-stat-name{font-size:10px;color:var(--text2)}
+.equip-stat-val{font-size:18px;font-weight:800}
+
+/* Inner world */
+.inner-world-btn{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1.5px solid #4a4a8a;border-radius:14px;margin:0 12px 8px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;position:relative;overflow:hidden}
+.inner-world-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#7b68ee18,transparent);pointer-events:none}
+.iw-icon{font-size:36px}
+.iw-info{flex:1}
+.iw-title{font-size:16px;font-weight:800;color:#a78bfa}
+.iw-sub{font-size:12px;color:#7b68ee;margin-top:2px}
+.iw-arrow{font-size:20px;color:#4a4a8a}
+
+/* Inner world page */
+#pg-inner{background:#050510}
+.iw-page-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#1a0a3a,#050510);overflow:hidden}
+.iw-stars{position:absolute;inset:0}
+.iw-content{position:relative;z-index:2;padding:16px 12px;height:100%;overflow-y:auto}
+.iw-header{text-align:center;padding:20px 0 16px}
+.iw-header-title{font-size:24px;font-weight:900;color:#fff;text-shadow:0 0 20px #7b68ee}
+.iw-header-sub{font-size:13px;color:#7b68ee;margin-top:4px}
+.beast-card{background:linear-gradient(135deg,#1a0a2e,#0a1a2e);border:1.5px solid;border-radius:16px;padding:16px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden}
+.beast-card::before{content:'';position:absolute;inset:0;opacity:.1;pointer-events:none}
+.beast-E{border-color:#888;color:#888}
+.beast-D{border-color:#66bb6a;color:#66bb6a}
+.beast-C{border-color:#42a5f5;color:#42a5f5}
+.beast-B{border-color:#ab47bc;color:#ab47bc}
+.beast-A{border-color:#ffa726;color:#ffa726}
+.beast-S{border-color:#ef5350;color:#ef5350}
+.beast-SS{border-color:#ff80ab;color:#ff80ab}
+.beast-SSS{border-color:#fff;color:#fff}
+.beast-top{display:flex;align-items:center;gap:12px}
+.beast-ic{font-size:40px}
+.beast-info{flex:1}
+.beast-name{font-size:16px;font-weight:800}
+.beast-rank{font-size:11px;margin-top:2px;font-weight:700;letter-spacing:1px}
+.beast-drop{font-size:11px;margin-top:4px;opacity:.7}
+.beast-hp-bar{height:4px;border-radius:2px;margin-top:10px;background:#ffffff18;overflow:hidden}
+.beast-hp-fill{height:100%;border-radius:2px}
+.fight-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--beast-c,#888);border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;color:#fff;cursor:pointer}
+
+/* Battle overlay */
+#battle-overlay{position:fixed;inset:0;background:#000000ee;z-index:500;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+#battle-overlay.open{display:flex}
+.battle-arena{background:linear-gradient(145deg,#0f0f1a,#1a0a2e);border-radius:24px;width:100%;max-width:360px;padding:24px;text-align:center;border:1px solid #4a4a8a}
+.battle-vs{font-size:13px;color:#7b68ee;margin-bottom:16px;letter-spacing:2px}
+.battle-beasts{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:20px;font-size:52px}
+.battle-result{font-size:20px;font-weight:900;margin:12px 0}
+.battle-rewards{background:#ffffff08;border-radius:12px;padding:12px;margin:12px 0}
+.battle-reward-row{font-size:13px;color:#ffd700;margin:4px 0}
+.battle-close{background:#4a4a8a;border:none;border-radius:12px;padding:12px 32px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}
+
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+
+/* ==================== TASK ACTION MODAL ==================== */
+.task-action-sheet{position:fixed;inset:0;z-index:300;display:none;align-items:flex-end}
+.task-action-sheet.open{display:flex}
+.task-action-bg{position:absolute;inset:0;background:#00000080}
+.task-action-box{position:relative;z-index:1;background:var(--bg2);border-radius:20px 20px 0 0;padding:20px 16px 32px;width:100%;max-height:80vh;overflow-y:auto}
+.task-action-title{font-size:16px;font-weight:800;margin-bottom:4px}
+.task-action-sub{font-size:12px;color:var(--text2);margin-bottom:16px}
+.action-section-label{font-size:11px;color:var(--text3);font-weight:700;letter-spacing:.5px;margin:12px 0 8px;text-transform:uppercase}
+.duration-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.dur-pill{padding:10px 16px;border-radius:12px;background:var(--bg3);border:1.5px solid var(--border);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s}
+.dur-pill:active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.timer-btns{display:flex;gap:10px}
+.timer-btn{flex:1;padding:14px;border-radius:14px;border:1.5px solid var(--border);background:var(--bg3);font-size:14px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.timer-btn-ic{font-size:24px}
+.timer-btn.count-up{border-color:#4caf50;color:#4caf50}
+.timer-btn.count-down{border-color:var(--accent);color:var(--accent)}
+
+/* ==================== DOJO ==================== */
+#dojo{position:fixed;inset:0;z-index:400;display:none;flex-direction:column;background:#050510;overflow:hidden}
+#dojo.open{display:flex}
+.dojo-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,#0a0a2a,#050510)}
+.dojo-stars{position:absolute;inset:0;pointer-events:none}
+.dojo-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;height:100%;padding:0 16px}
+.dojo-header{width:100%;display:flex;align-items:center;justify-content:space-between;padding:16px 0 8px}
+.dojo-task-name{font-size:16px;font-weight:800;color:#fff}
+.dojo-close-btn{width:36px;height:36px;border-radius:10px;background:#ffffff14;border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* Timer display */
+.dojo-timer{text-align:center;margin:8px 0 4px}
+.dojo-time-big{font-size:56px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-2px;text-shadow:0 0 30px #7b68ee80;line-height:1}
+.dojo-time-label{font-size:12px;color:#7b68ee;margin-top:4px;letter-spacing:1px}
+.dojo-progress-ring{margin:6px auto;position:relative;width:200px;height:200px}
+.dojo-progress-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+
+/* Character animation stage */
+.dojo-stage{width:100%;flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0}
+.dojo-char{position:relative;width:100px;height:160px}
+/* Animated character parts */
+.dc-head{width:40px;height:40px;border-radius:50%;background:#ffc896;border:2px solid #c8955a;position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:16px;z-index:5}
+.dc-body{width:44px;height:48px;border-radius:8px;position:absolute;top:40px;left:50%;transform:translateX(-50%);z-index:3;display:flex;align-items:center;justify-content:center;font-size:18px}
+.dc-arm-l{width:12px;height:38px;border-radius:6px;position:absolute;top:42px;z-index:2;transform-origin:top center}
+.dc-arm-r{width:12px;height:38px;border-radius:6px;position:absolute;top:42px;z-index:2;transform-origin:top center}
+.dc-legs{position:absolute;top:84px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3}
+.dc-leg{width:16px;height:36px;border-radius:4px 4px 6px 6px;transform-origin:top center}
+/* Glow aura */
+.dojo-aura{position:absolute;bottom:10px;width:80px;height:20px;border-radius:50%;background:radial-gradient(ellipse,var(--aura-c,#7b68ee) 0%,transparent 70%);opacity:.6;filter:blur(4px);animation:aura-pulse 2s ease-in-out infinite}
+@keyframes aura-pulse{0%,100%{opacity:.4;transform:scaleX(1)}50%{opacity:.8;transform:scaleX(1.3)}}
+/* Training animations */
+@keyframes train-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes train-arm-l{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(40deg)}}
+@keyframes train-arm-r{0%,100%{transform:rotate(20deg)}50%{transform:rotate(-40deg)}}
+@keyframes train-leg-l{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(15deg)}}
+@keyframes train-leg-r{0%,100%{transform:rotate(10deg)}50%{transform:rotate(-15deg)}}
+.training .dc-head,.training .dc-body{animation:train-bob 1s ease-in-out infinite}
+.training .dc-arm-l{animation:train-arm-l 1s ease-in-out infinite;left:calc(50% - 30px)}
+.training .dc-arm-r{animation:train-arm-r 1s ease-in-out infinite;left:calc(50% + 18px)}
+.training .dc-legs > .dc-leg:first-child{animation:train-leg-l 1s ease-in-out infinite}
+.training .dc-legs > .dc-leg:last-child{animation:train-leg-r 1s ease-in-out infinite;animation-delay:.5s}
+
+/* Particles */
+.dojo-particle{position:absolute;width:4px;height:4px;border-radius:50%;pointer-events:none;animation:float-up 3s ease-out forwards}
+@keyframes float-up{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(0)}}
+
+/* Bottom controls */
+.dojo-controls{width:100%;padding:12px 0 24px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.dojo-finish-btn{width:100%;max-width:320px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#7b68ee,#4c3fd4);border:none;color:#fff;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:.5px}
+.dojo-pause-btn{background:none;border:1.5px solid #7b68ee66;border-radius:12px;padding:10px 24px;color:#7b68ee;font-size:13px;font-weight:600;cursor:pointer}
+.dojo-stat-pills{display:flex;gap:12px;margin-top:4px}
+.dojo-stat-pill{font-size:12px;color:#ffffff60;display:flex;align-items:center;gap:4px}
+
+/* ==================== BAG + SHOP ==================== */
+.bag-tab,.shop-tab{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;background:var(--bg3);border:1.5px solid var(--border);color:var(--text2);transition:all .15s}
+.bag-tab.active,.shop-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.bag-item{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.bag-item-ic{font-size:32px;flex-shrink:0}
+.bag-item-info{flex:1}
+.bag-item-name{font-size:14px;font-weight:700}
+.bag-item-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.bag-item-action{padding:8px 14px;border-radius:10px;border:1.5px solid var(--accent);color:var(--accent);font-size:12px;font-weight:700;cursor:pointer;background:transparent;flex-shrink:0}
+.bag-empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:13px}
+.shop-item{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
+.shop-item-top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.shop-item-ic{font-size:32px;flex-shrink:0}
+.shop-item-info{flex:1}
+.shop-item-name{font-size:14px;font-weight:700}
+.shop-item-desc{font-size:11px;color:var(--text2);margin-top:2px}
+.shop-item-buy{display:flex;align-items:center;justify-content:space-between}
+.shop-item-price{font-size:13px;font-weight:700;color:#ffd700}
+.shop-buy-btn{padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#ff9500,#ff6b00);border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer}
+.shop-buy-btn:disabled{background:#444;cursor:default;opacity:.5}
+
+/* ==================== WORLD NAV ==================== */
+.nav-world-bar{display:flex;flex-shrink:0;border-top:1px solid var(--border)}
+.nwb-btn{flex:1;padding:6px 4px;border:none;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:.5px;background:var(--bg3);color:var(--text3);transition:all .25s}
+.nwb-btn.real-active{background:linear-gradient(90deg,#ff9500,#ff6b00);color:#fff}
+.nwb-btn.inner-active{background:linear-gradient(90deg,#1a0a3a,#2a0a5a);color:#a78bfa}
+.nav-inner-bar{display:flex;background:#0a050f;border-top:1px solid #2a1a4a}
+.nav-inner-bar .nav-btn{color:#4a3a6a}
+.nav-inner-bar .nav-btn.inner-active{color:#a78bfa}
+
+/* ==================== VILLAGE MAP ==================== */
+#pg-village{background:#0d1117;position:relative;overflow:hidden}
+.village-world{position:absolute;inset:0;overflow:hidden}
+.village-sky{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,#1a0a3a 0%,#050510 60%)}
+.village-ground{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(180deg,#0a1a0a 0%,#051005 100%)}
+.village-path{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60px;height:55%;background:linear-gradient(180deg,#1a1505,#0d1005);border-left:2px dashed #2a2510;border-right:2px dashed #2a2510}
+
+/* Village buildings - isometric style */
+.vbld{position:absolute;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:transform .2s;-webkit-user-select:none;user-select:none}
+.vbld:active{transform:scale(.92)!important}
+.vbld-ic{line-height:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.8))}
+.vbld-label{font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap;backdrop-filter:blur(4px)}
+.vbld-dot{width:6px;height:6px;border-radius:50%;animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* NPC dialog */
+#npc-dialog{position:fixed;inset:0;z-index:450;display:none;flex-direction:column;justify-content:flex-end;padding-bottom:0}
+#npc-dialog.open{display:flex}
+.npc-dialog-bg{position:absolute;inset:0;background:#00000060}
+.npc-dialog-box{position:relative;z-index:1;background:linear-gradient(180deg,#0f0f1a,#080810);border-top:2px solid #2a1a4a;padding:0 0 max(16px,env(safe-area-inset-bottom))}
+.npc-portrait-bar{display:flex;align-items:flex-end;gap:12px;padding:12px 16px 8px}
+.npc-portrait{width:64px;height:64px;border-radius:16px;background:#1a0a2a;border:2px solid #4a2a8a;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;box-shadow:0 0 16px #4a2a8a40}
+.npc-name-badge{background:#1a0a2a;border:1px solid #4a2a8a;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:800;color:#a78bfa}
+.npc-text-box{margin:0 16px;background:#0a0a18;border:1px solid #1a1a3a;border-radius:12px;padding:14px 16px;min-height:60px;font-size:14px;color:#ddd;line-height:1.6}
+.npc-text-cursor{display:inline-block;width:2px;height:14px;background:#a78bfa;animation:blink .7s step-end infinite;vertical-align:middle;margin-left:1px}
+.npc-choices{display:flex;flex-direction:column;gap:6px;padding:10px 16px 0}
+.npc-choice{background:#0f0f1a;border:1px solid #2a1a4a;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0b0e0;cursor:pointer;transition:all .15s;text-align:left}
+.npc-choice:active{background:#1a0a3a;border-color:#6a3aaa}
+.npc-close-hint{text-align:center;padding:8px;font-size:11px;color:#4a3a6a;cursor:pointer}
+
+/* Stars canvas */
+.village-stars{position:absolute;inset:0;pointer-events:none}
+/* Moon */
+.village-moon{position:absolute;top:12%;right:15%;width:50px;height:50px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fffde0,#ffd700);box-shadow:0 0 30px #ffd70040,0 0 60px #ffd70020}
+/* Floating particles */
+.village-firefly{position:absolute;width:3px;height:3px;border-radius:50%;background:#aaff88;animation:firefly-float linear infinite;pointer-events:none}
+@keyframes firefly-float{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}80%{opacity:.8}100%{opacity:0;transform:translate(var(--fx),var(--fy))}}
+
+/* ==================== INTRO / AWAKENING ==================== */
+#intro-overlay{position:fixed;inset:0;z-index:1000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#intro-overlay.hidden{display:none}
+.intro-stars{position:absolute;inset:0}
+.intro-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px}
+.intro-phase{opacity:0;transition:opacity .8s}
+.intro-phase.show{opacity:1}
+.intro-title{font-size:28px;font-weight:900;color:#fff;letter-spacing:2px;text-shadow:0 0 30px #7b68ee}
+.intro-sub{font-size:14px;color:#7b68ee;margin-top:8px;letter-spacing:1px}
+.intro-char{font-size:72px;margin:20px 0;filter:drop-shadow(0 0 20px #7b68ee);animation:intro-float 3s ease-in-out infinite}
+@keyframes intro-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.intro-npc-box{background:#0a050f;border:1px solid #2a1a4a;border-radius:16px;padding:16px;max-width:320px;margin:16px auto 0;width:100%}
+.intro-npc-portrait{font-size:40px;margin-bottom:8px}
+.intro-npc-name{font-size:12px;color:#a78bfa;font-weight:800;margin-bottom:8px}
+.intro-npc-text{font-size:14px;color:#ddd;line-height:1.7;min-height:60px;text-align:left}
+.intro-cursor{display:inline-block;width:2px;height:14px;background:#a78bfa;animation:blink .7s step-end infinite;vertical-align:middle}
+.intro-next-btn{margin-top:16px;width:100%;padding:14px;background:linear-gradient(135deg,#4a1a8a,#7b2fd4);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.5px}
+.intro-skip{font-size:11px;color:#4a3a6a;margin-top:12px;cursor:pointer;text-decoration:underline}
+.intro-name-input{width:100%;padding:12px 16px;background:#0f0f1f;border:1.5px solid #3a2a6a;border-radius:12px;color:#fff;font-size:16px;text-align:center;margin:12px 0;box-sizing:border-box;outline:none}
+.intro-name-input::placeholder{color:#4a3a6a}
+
+/* ==================== WORLD TRANSITION ==================== */
+#world-transition{position:fixed;inset:0;z-index:900;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0}
+#world-transition.active{pointer-events:all}
+.wt-bg{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .3s}
+.wt-vortex-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.wt-player{font-size:48px;position:relative;z-index:2;transition:all .8s cubic-bezier(.4,0,.2,1);opacity:0}
+.wt-vortex{position:absolute;border-radius:50%;transition:all .6s ease-in}
+#world-transition.entering .wt-player{animation:walk-in .8s forwards}
+@keyframes walk-in{0%{transform:scale(1) translateY(0);opacity:1}60%{transform:scale(.4) translateY(10px);opacity:.8}100%{transform:scale(0) translateY(0);opacity:0}}
+.wt-label{position:absolute;bottom:30%;color:#fff;font-size:16px;font-weight:800;letter-spacing:2px;opacity:0;transition:opacity .4s}
+
+/* ==================== BATTLE SYSTEM ==================== */
+#battle-screen{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:#05020f;overflow:hidden}
+#battle-screen.open{display:flex}
+.bs-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#0f0520,#05020f)}
+.bs-content{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:0}
+
+/* Top bar */
+.bs-topbar{padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.bs-flee{background:#ffffff12;border:1px solid #ffffff20;border-radius:8px;padding:6px 12px;color:#888;font-size:12px;cursor:pointer;font-weight:700}
+.bs-turn-badge{font-size:11px;color:#a78bfa;font-weight:800;letter-spacing:1px}
+
+/* Arena */
+.bs-arena{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:8px 16px}
+
+/* Enemy section */
+.bs-enemy-area{display:flex;flex-direction:column;align-items:center;gap:6px}
+.bs-enemy-sprite{font-size:72px;line-height:1;filter:drop-shadow(0 0 20px var(--beast-glow,#888));transition:transform .15s}
+.bs-enemy-sprite.hit{animation:enemy-hit .3s}
+.bs-enemy-sprite.dead{animation:enemy-die .5s forwards}
+@keyframes enemy-hit{0%{transform:translateX(0)}25%{transform:translateX(-12px)}75%{transform:translateX(12px)}100%{transform:translateX(0)}}
+@keyframes enemy-die{0%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.5}100%{transform:scale(0);opacity:0}}
+.bs-enemy-name{font-size:14px;font-weight:800;color:var(--beast-c,#888)}
+.bs-enemy-hp-wrap{width:100%;max-width:240px}
+.bs-hp-label{display:flex;justify-content:space-between;font-size:11px;color:#ffffff60;margin-bottom:3px}
+.bs-hp-bar{height:10px;background:#ffffff10;border-radius:5px;overflow:hidden;border:1px solid #ffffff10}
+.bs-hp-fill{height:100%;border-radius:5px;transition:width .4s ease}
+
+/* Battle log */
+.bs-log-area{background:#0a0518;border:1px solid #1a0a30;border-radius:12px;padding:8px 12px;min-height:60px;max-height:80px;overflow-y:auto;font-size:12px;line-height:1.7}
+.bs-log-line{color:#c0b0e0;opacity:0;animation:log-appear .3s forwards}
+.bs-log-line.player-atk{color:#ffd700}
+.bs-log-line.enemy-atk{color:#ff6060}
+.bs-log-line.skill{color:#a78bfa}
+.bs-log-line.crit{color:#ff9500;font-weight:700}
+.bs-log-line.sys{color:#4a3a6a}
+@keyframes log-appear{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* Player section */
+.bs-player-area{display:flex;align-items:flex-end;gap:12px}
+.bs-player-sprite{font-size:48px;line-height:1;filter:drop-shadow(0 0 12px #7b68ee40)}
+.bs-player-sprite.attacking{animation:player-atk .4s}
+.bs-player-sprite.hurt{animation:player-hurt .3s}
+@keyframes player-atk{0%{transform:translateX(0)}40%{transform:translateX(24px) scale(1.1)}100%{transform:translateX(0) scale(1)}}
+@keyframes player-hurt{0%,100%{transform:translateX(0)}50%{transform:translateX(-8px);filter:brightness(2) drop-shadow(0 0 8px #ff0000)}}
+.bs-player-stats{flex:1}
+.bs-player-name{font-size:12px;font-weight:800;color:#fff;margin-bottom:4px}
+.bs-player-hp-bar{height:8px;background:#ffffff10;border-radius:4px;overflow:hidden;margin-bottom:6px}
+.bs-player-hp-fill{height:100%;background:linear-gradient(90deg,#4caf50,#8bc34a);border-radius:4px;transition:width .4s}
+.bs-player-mp-bar{height:6px;background:#ffffff10;border-radius:3px;overflow:hidden}
+.bs-player-mp-fill{height:100%;background:linear-gradient(90deg,#2196f3,#03a9f4);border-radius:3px;transition:width .3s}
+.bs-stat-row{display:flex;gap:6px;font-size:10px;color:#ffffff60;margin-top:4px}
+
+/* Skills */
+.bs-skills{padding:10px 12px;background:#08041a;border-top:1px solid #1a0a30}
+.bs-skills-label{font-size:10px;color:#4a3a6a;font-weight:700;letter-spacing:.5px;margin-bottom:6px}
+.bs-skill-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.bs-skill-btn{padding:8px 4px;background:#0f0830;border:1.5px solid #2a1a50;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;transition:all .15s;-webkit-user-select:none;user-select:none}
+.bs-skill-btn:active{transform:scale(.92);background:#1a0a4a}
+.bs-skill-btn.on-cooldown{opacity:.4;cursor:not-allowed}
+.bs-skill-btn.on-cooldown:active{transform:none}
+.bs-skill-ic{font-size:22px;line-height:1}
+.bs-skill-name{font-size:9px;color:#c0b0e0;text-align:center;line-height:1.2}
+.bs-skill-mp{font-size:9px;color:#42a5f5}
+.bs-skill-cd{font-size:9px;color:#ef5350}
+.bs-skill-btn.mp-empty{border-color:#ef535040;opacity:.5}
+
+/* Floating damage number */
+.bs-dmg-float{position:absolute;font-size:22px;font-weight:900;pointer-events:none;animation:dmg-up .8s ease-out forwards;white-space:nowrap;text-shadow:0 2px 8px #000}
+@keyframes dmg-up{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(.7)}}
+.bs-dmg-float.crit{font-size:30px;color:#ff9500}
+.bs-dmg-float.enemy-dmg{color:#ff4444}
+.bs-dmg-float.player-dmg{color:#44ff88}
+.bs-dmg-float.heal{color:#44ffcc}
+.bs-dmg-float.miss{color:#888;font-size:16px}
+
+/* Victory / Defeat screen */
+.bs-result{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000000cc;backdrop-filter:blur(4px)}
+.bs-result-title{font-size:40px;font-weight:900;letter-spacing:3px;text-shadow:0 0 30px currentColor;animation:result-pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes result-pop{from{transform:scale(0)}to{transform:scale(1)}}
+.bs-result-rewards{background:#0a050f;border:1px solid #2a1a4a;border-radius:16px;padding:16px 24px;margin:16px 0;min-width:240px}
+.bs-result-row{font-size:14px;margin:6px 0;display:flex;align-items:center;gap:8px}
+.bs-result-btn{padding:14px 40px;border-radius:14px;border:none;color:#fff;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px}
 </style>
 </head>
 <body>
@@ -308,6 +690,15 @@ textarea.m-inp{resize:none;min-height:80px}
 
   <!-- TIME TRACKER PAGE -->
   <div class="page" id="pg-tl">
+    <div id="tl-guide" style="background:linear-gradient(135deg,#ff950015,#ff6b0010);border:1px solid #ff950030;border-radius:14px;margin:8px 12px 4px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start">
+      <div style="font-size:22px;flex-shrink:0">⚡</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:3px">点击格子 = 属性转化</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.5">先选上方类别，再点时间格子。每格15分钟，填满格子颜色即记录该时段活动。</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">💡 选「力量」点4格 = 1小时健身 = <b style="color:var(--accent)">+1.0力量</b></div>
+      </div>
+      <div style="flex-shrink:0;cursor:pointer;color:var(--text3);font-size:18px;padding:0 4px" onclick="document.getElementById('tl-guide').style.display='none'">×</div>
+    </div>
     <div class="tl-nav">
       <button class="tl-arrow" onclick="tlMove(-1)">‹</button>
       <div class="tl-nav-center">
@@ -342,6 +733,7 @@ textarea.m-inp{resize:none;min-height:80px}
 
   <!-- TASK PAGE -->
   <div class="page" id="pg-task">
+    <div id="newbie-banner" class="newbie-banner" style="display:none"></div>
     <div class="task-tabs">
       <button class="task-tab active" id="tt-all" onclick="setTaskTab('all',this)">全部</button>
       <button class="task-tab" id="tt-main" onclick="setTaskTab('main',this)">主线任务</button>
@@ -355,11 +747,13 @@ textarea.m-inp{resize:none;min-height:80px}
     <div id="task-list"></div>
   </div>
 
-  <!-- ATTRIBUTES PAGE -->
+  <!-- ATTRIBUTES / EQUIPMENT PAGE -->
   <div class="page" id="pg-attr">
-    <div class="attr-page-wrap">
-      <div id="attr-hero-wrap"></div>
-      <div class="attr-grid" id="attr-grid"></div>
+    <div class="equip-page">
+      <div id="equip-currency" class="currency-bar"></div>
+      <div id="equip-char-panel"></div>
+      <div class="equip-slots-grid" id="equip-slots"></div>
+      <div class="equip-stats" id="equip-stats"></div>
     </div>
   </div>
 
@@ -372,28 +766,172 @@ textarea.m-inp{resize:none;min-height:80px}
     <div id="mem-list"></div>
   </div>
 
+  <!-- INNER WORLD PAGE -->
+  <div class="page" id="pg-inner">
+    <div class="iw-page-bg">
+      <canvas id="iw-stars-canvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+    </div>
+    <div class="iw-content">
+      <div class="iw-header">
+        <div class="iw-header-title">⚔️ 里世界</div>
+        <div class="iw-header-sub">挑战隐兽，获得装备与技能碎片</div>
+      </div>
+      <div id="iw-currency" class="currency-bar" style="margin:0 0 12px"></div>
+      <div id="beast-list"></div>
+    </div>
+  </div>
+
+  <!-- BATTLE OVERLAY -->
+  <div id="battle-overlay">
+    <div class="battle-arena">
+      <div class="battle-vs">⚔️ 对战中</div>
+      <div class="battle-beasts" id="battle-beasts">🧙 VS 👹</div>
+      <div class="battle-result" id="battle-result"></div>
+      <div class="battle-rewards" id="battle-rewards"></div>
+      <button class="battle-close" onclick="closeBattle()">收下奖励</button>
+    </div>
+  </div>
+
+  <!-- BAG PAGE -->
+  <div class="page" id="pg-bag">
+    <div style="padding:12px">
+      <div style="font-size:18px;font-weight:800;margin-bottom:4px">🎒 背包</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px">从里世界获得的装备和物品</div>
+      <div id="bag-currency" class="currency-bar" style="margin:0 0 12px"></div>
+      <div id="bag-tabs" style="display:flex;gap:8px;margin-bottom:12px">
+        <div class="bag-tab active" onclick="switchBagTab('equip',this)">⚔️ 装备</div>
+        <div class="bag-tab" onclick="switchBagTab('frag',this)">💠 碎片</div>
+      </div>
+      <div id="bag-list"></div>
+    </div>
+  </div>
+
+  <!-- SHOP PAGE -->
+  <div class="page" id="pg-shop">
+    <div style="padding:12px">
+      <div style="font-size:18px;font-weight:800;margin-bottom:4px">🏪 商场</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px">用金币和宝石购买强化道具</div>
+      <div id="shop-currency" class="currency-bar" style="margin:0 0 12px"></div>
+      <div id="shop-tabs" style="display:flex;gap:8px;margin-bottom:12px">
+        <div class="shop-tab active" onclick="switchShopTab('consumable',this)">🧪 消耗品</div>
+        <div class="shop-tab" onclick="switchShopTab('equipment',this)">⚔️ 装备</div>
+        <div class="shop-tab" onclick="switchShopTab('boost',this)">⚡ 加成</div>
+      </div>
+      <div id="shop-list"></div>
+    </div>
+  </div>
+
+  <!-- VILLAGE PAGE -->
+  <div class="page" id="pg-village">
+    <div class="village-world">
+      <div class="village-sky">
+        <canvas class="village-stars" id="village-stars"></canvas>
+        <div class="village-moon"></div>
+      </div>
+      <div class="village-ground"></div>
+      <div class="village-path"></div>
+
+      <!-- Buildings / NPCs -->
+      <!-- Village Elder -->
+      <div class="vbld" style="bottom:52%;left:50%;transform:translateX(-50%)" onclick="openNPC('elder')">
+        <div class="vbld-ic" style="font-size:52px">🏛️</div>
+        <div class="vbld-label" style="background:#2a1a4a88;color:#c0a0ff;border:1px solid #4a2a8a">村长府</div>
+        <div class="vbld-dot" style="background:#a78bfa"></div>
+      </div>
+
+      <!-- Training Ground -->
+      <div class="vbld" style="bottom:44%;left:18%" onclick="openNPC('trainer')">
+        <div class="vbld-ic" style="font-size:44px">⚔️</div>
+        <div class="vbld-label" style="background:#1a0a0a88;color:#ff8080;border:1px solid #8a2a2a">训练场</div>
+        <div class="vbld-dot" style="background:#ff6060"></div>
+      </div>
+
+      <!-- Library -->
+      <div class="vbld" style="bottom:44%;right:18%" onclick="openNPC('scholar')">
+        <div class="vbld-ic" style="font-size:44px">📚</div>
+        <div class="vbld-label" style="background:#0a0a1a88;color:#80aaff;border:1px solid #2a4a8a">图书馆</div>
+        <div class="vbld-dot" style="background:#4488ff"></div>
+      </div>
+
+      <!-- Shop -->
+      <div class="vbld" style="bottom:36%;left:10%" onclick="nav('shop',document.getElementById('nb-shop'))">
+        <div class="vbld-ic" style="font-size:38px">🏪</div>
+        <div class="vbld-label" style="background:#0a1a0a88;color:#80ff80;border:1px solid #2a8a2a">商店</div>
+      </div>
+
+      <!-- Bag / Storage -->
+      <div class="vbld" style="bottom:36%;right:10%" onclick="nav('bag',document.getElementById('nb-bag'))">
+        <div class="vbld-ic" style="font-size:38px">🎒</div>
+        <div class="vbld-label" style="background:#1a1a0a88;color:#ffdd80;border:1px solid #8a7a2a">仓库</div>
+      </div>
+
+      <!-- Gate to Wilderness (inner) -->
+      <div class="vbld" style="bottom:25%;left:50%;transform:translateX(-50%)" onclick="nav('inner',document.getElementById('nb-inner'))">
+        <div class="vbld-ic" style="font-size:44px">🗺️</div>
+        <div class="vbld-label" style="background:#0a050f88;color:#c084fc;border:1px solid #6b21a8">野外 · 战斗</div>
+      </div>
+
+      <!-- Portal: back to real world -->
+      <div class="vbld" style="bottom:14%;left:50%;transform:translateX(-50%)" onclick="switchWorld('real')">
+        <div class="vbld-ic" style="font-size:52px;animation:intro-float 2s ease-in-out infinite">🌀</div>
+        <div class="vbld-label" style="background:#ff950022;color:#ffaa44;border:1px solid #ff9500">← 回到表世界</div>
+        <div class="vbld-dot" style="background:#ff9500;animation-duration:.8s"></div>
+      </div>
+
+      <!-- Player character on path -->
+      <div id="village-player" style="position:absolute;bottom:28%;left:50%;transform:translateX(-50%);font-size:36px;filter:drop-shadow(0 4px 12px rgba(100,80,255,.6));animation:train-bob 2s ease-in-out infinite">🧙</div>
+
+      <!-- Fireflies container -->
+      <div id="village-fireflies"></div>
+    </div>
+    <!-- Top HUD -->
+    <div style="position:absolute;top:0;left:0;right:0;z-index:10;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(180deg,#05051080,transparent)">
+      <div style="color:#a78bfa;font-size:14px;font-weight:800">🌙 新手村</div>
+      <div id="village-hud" style="display:flex;gap:10px;font-size:12px;font-weight:700">
+        <span style="color:#ffd700">💰 <span id="v-gold">0</span></span>
+        <span style="color:#a78bfa">💎 <span id="v-gem">0</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NPC DIALOG -->
+  <div id="npc-dialog">
+    <div class="npc-dialog-bg" onclick="closeNPC()"></div>
+    <div class="npc-dialog-box">
+      <div class="npc-portrait-bar">
+        <div class="npc-portrait" id="npc-portrait">👴</div>
+        <div class="npc-name-badge" id="npc-name">村长</div>
+      </div>
+      <div class="npc-text-box" id="npc-text"></div>
+      <div class="npc-choices" id="npc-choices"></div>
+      <div class="npc-close-hint" onclick="closeNPC()">点击空白处关闭</div>
+    </div>
+  </div>
+
 </div><!-- end app -->
 
 <!-- BOTTOM NAV -->
-<div id="nav">
-  <button class="nav-btn active" id="nb-ai" onclick="nav('ai',this)">
-    <span class="nav-ic">🤖</span><span>AI</span>
-  </button>
-  <button class="nav-btn" id="nb-tl" onclick="nav('tl',this)">
-    <span class="nav-ic">⏱</span><span>时间轨迹</span>
-  </button>
-  <button class="nav-btn" id="nb-daily" onclick="nav('daily',this)">
-    <span class="nav-ic">📋</span><span>每日挑战</span>
-  </button>
-  <button class="nav-btn" id="nb-task" onclick="nav('task',this)">
-    <span class="nav-ic">🚩</span><span>任务系统</span>
-  </button>
-  <button class="nav-btn" id="nb-attr" onclick="nav('attr',this)">
-    <span class="nav-ic">⚔️</span><span>属性</span>
-  </button>
-  <button class="nav-btn" id="nb-mem" onclick="nav('mem',this)">
-    <span class="nav-ic">💾</span><span>记忆</span>
-  </button>
+<!-- BOTTOM NAV -->
+<!-- World switcher bar -->
+<div class="nav-world-bar" id="world-bar">
+  <button class="nwb-btn real-active" id="nwb-real" onclick="switchWorld('real')">☀️ 表世界</button>
+  <button class="nwb-btn" id="nwb-inner" onclick="switchWorld('inner')">🌙 里世界</button>
+</div>
+<!-- Real world nav -->
+<div id="nav" class="nav-real">
+  <button class="nav-btn active" id="nb-ai" onclick="nav('ai',this)"><span class="nav-ic">🤖</span><span>AI</span></button>
+  <button class="nav-btn" id="nb-tl" onclick="nav('tl',this)"><span class="nav-ic">⏱</span><span>时间</span></button>
+  <button class="nav-btn" id="nb-daily" onclick="nav('daily',this)"><span class="nav-ic">📋</span><span>挑战</span></button>
+  <button class="nav-btn" id="nb-task" onclick="nav('task',this)"><span class="nav-ic">🚩</span><span>任务</span></button>
+  <button class="nav-btn" id="nb-mem" onclick="nav('mem',this)"><span class="nav-ic">💾</span><span>记忆</span></button>
+</div>
+<!-- Inner world nav -->
+<div id="nav-inner" style="display:none" class="nav-inner-bar">
+  <button class="nav-btn inner-active" id="nb-village" onclick="nav('village',this)"><span class="nav-ic">🏘️</span><span>新手村</span></button>
+  <button class="nav-btn" id="nb-attr" onclick="nav('attr',this)"><span class="nav-ic">⚔️</span><span>装备</span></button>
+  <button class="nav-btn" id="nb-inner" onclick="nav('inner',this)"><span class="nav-ic">🗺️</span><span>野外</span></button>
+  <button class="nav-btn" id="nb-bag" onclick="nav('bag',this)"><span class="nav-ic">🎒</span><span>背包</span></button>
+  <button class="nav-btn" id="nb-shop" onclick="nav('shop',this)"><span class="nav-ic">🏪</span><span>商场</span></button>
 </div>
 
 <!-- MODAL -->
@@ -461,10 +999,15 @@ function mkDef(){
       {id:'f3',ic:'🎮',n:'戒游戏',st:'p',lastCheck:'',winStreak:0,loseStreak:0},
     ],
     tasks:[
-      {id:'t1',n:'完成Life Game基础版',sub:'',type:'main',period:'today',done:false,delayed:false,date:today,subtasks:[]},
+      {id:'t1',n:'完成Life Game基础版',sub:'',type:'main',period:'today',done:false,delayed:false,date:today,subtasks:[],diff:'A'},
     ],
     mems:[],
     taskTab:'all',
+    gold:0,
+    gems:0,
+    equipment:{helm:null,armor:null,pants:null,boots:null,weapon:null,shield:null,necklace:null,ring:null},
+    newbie:{active:true,step:0,dismissed:false},
+    beasts:null,
   };
 }
 
@@ -561,14 +1104,22 @@ function compDayAttr(ds){
 // ============================================================
 function nav(page,btn){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
-  document.getElementById('pg-'+page).classList.add('active');
-  btn.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');b.classList.remove('inner-active');});
+  var pg=document.getElementById('pg-'+page);
+  if(pg)pg.classList.add('active');
+  if(btn){
+    if(_currentWorld==='inner')btn.classList.add('inner-active');
+    else btn.classList.add('active');
+  }
   if(page==='tl'){renderTL();}
   else if(page==='daily'){renderDaily();}
   else if(page==='task'){renderTask();}
-  else if(page==='attr'){renderAttr();}
+  else if(page==='attr'){renderEquipPage();}
   else if(page==='mem'){renderMem();}
+  else if(page==='inner'){renderInnerWorld();}
+  else if(page==='bag'){renderBag();}
+  else if(page==='shop'){renderShop();}
+  else if(page==='village'){renderVillage();}
 }
 
 // ============================================================
@@ -930,56 +1481,55 @@ function renderDaily(){
 
   document.getElementById('daily-grid').innerHTML=S.daily.map(function(t){
     var chk=t.st==='d'?'✓':t.st==='f'?'✗':'';
+    var cls='dcard'+(t.st==='d'?' done':t.st==='f'?' fail':'');
     var strk='';
-    if(t.winStreak>0)strk='<div class="dcard-strk"><span class="strk-badge strk-win">🔥'+t.winStreak+'天</span></div>';
-    else if(t.loseStreak>0)strk='<div class="dcard-strk"><span class="strk-badge strk-lose">🧊'+t.loseStreak+'天</span></div>';
-    return '<div class="dcard '+(t.st==='d'?'done':t.st==='f'?'fail':'')+'" onclick="cycleTask(\''+t.id+'\',false)" ondblclick="openEditTask(\''+t.id+'\',false)">'
-      +'<div class="dcard-chk">'+chk+'</div>'
-      +'<div class="dcard-ic">'+t.ic+'</div>'
-      +'<div class="dcard-name">'+t.n+'</div>'
-      +(t.rwd?'<div class="dcard-rwd">'+t.rwd+'</div>':'')
-      +strk+'</div>';
+    if(t.st==='f'){strk='<div class="dcard-strk"><span class="strk-badge strk-lose">🧊'+(t.loseStreak||1)+'天</span></div>';}
+    else if(t.st==='d'&&(t.winStreak||0)>0){strk='<div class="dcard-strk"><span class="strk-badge strk-win">🔥'+t.winStreak+'天</span></div>';}
+    var id=t.id;
+    return ['<div class="'+cls+'" id="dc-'+id+'" onclick="handleDcardTap(\''+id+'\',false)">',
+      // no checkbox
+      '<div class="dcard-ic">'+t.ic+'</div>',
+      '<div class="dcard-name">'+t.n+'</div>',
+      (t.rwd?'<div class="dcard-rwd">'+t.rwd+'</div>':''),
+      strk,
+      '<div class="dcard-del" onclick="event.stopPropagation();delDailyItem(\''+id+'\',false)">×</div>',
+      '</div>'
+    ].join('');
   }).join('');
 
-  var forbid=S.forbid||[];
-  document.getElementById('forbid-grid').innerHTML=forbid.map(function(t){
-    var days=t.lastCheck?Math.abs(daysSince(t.lastCheck)):0;
-    return '<div class="fcard '+(t.st==='f'?'violated':'')+'" onclick="cycleTask(\''+t.id+'\',true)" ondblclick="openEditTask(\''+t.id+'\',true)">'
-      +'<div class="fcard-ic">'+t.ic+'</div>'
-      +'<div class="fcard-name">'+t.n+'</div>'
-      +'<div class="fcard-days">'+(t.winStreak>0?'已坚守'+t.winStreak+'天✓':'待记录')+'</div></div>';
+  document.getElementById('forbid-grid').innerHTML=(S.forbid||[]).map(function(t){
+    var cls='fcard'+(t.st==='f'?' violated':'');
+    var id=t.id;
+    return ['<div class="'+cls+'" onclick="cycleTask(\''+id+'\',true)">',
+      '<div class="fcard-ic">'+t.ic+'</div>',
+      '<div class="fcard-name">'+t.n+'</div>',
+      '<div class="fcard-days">'+((t.winStreak||0)>0?'已坚守'+t.winStreak+'天✓':'待记录')+'</div>',
+      '<div class="fcard-del" onclick="event.stopPropagation();delDailyItem(\''+id+'\',true)">×</div>',
+      '</div>'
+    ].join('');
   }).join('');
 }
 
-function openEditTask(id,isForbid){
-  var list=isForbid?(S.forbid||[]):S.daily;
-  var t=list.find(function(x){return x.id===id;});if(!t)return;
-  var box=document.getElementById('m-box');
-  box.innerHTML='<div class="m-title">编辑'+(isForbid?'禁止事项':'每日任务')+'</div>'
-    +'<div class="m-row"><div class="m-label">图标</div><input class="m-inp" id="mi-ic" value="'+t.ic+'" style="width:70px;text-align:center"></div>'
-    +'<div class="m-row"><div class="m-label">名称</div><input class="m-inp" id="mi-n" value="'+t.n+'"></div>'
-    +(isForbid?'':'<div class="m-row"><div class="m-label">备注</div><input class="m-inp" id="mi-rwd" value="'+(t.rwd||'')+'"></div>')
-    +'<div class="m-btns">'
-    +'<button class="m-btn m-btn-del" onclick="delTask(\''+id+'\','+(isForbid?'true':'false')+')">删除</button>'
-    +'<button class="m-btn m-btn-cancel" onclick="closeM()">取消</button>'
-    +'<button class="m-btn m-btn-ok" onclick="saveEditTask(\''+id+'\','+(isForbid?'true':'false')+')">保存</button>'
-    +'</div>';
-  document.getElementById('m-bg').classList.add('open');
-}
 
-function saveEditTask(id,isForbid){
-  var list=isForbid?(S.forbid||[]):S.daily;
-  var t=list.find(function(x){return x.id===id;});if(!t)return;
-  t.ic=document.getElementById('mi-ic').value.trim()||t.ic;
-  t.n=document.getElementById('mi-n').value.trim()||t.n;
-  var rEl=document.getElementById('mi-rwd');if(rEl)t.rwd=rEl.value.trim();
-  sv();closeM();renderDaily();
-}
 
-function delTask(id,isForbid){
-  if(isForbid)S.forbid=(S.forbid||[]).filter(function(x){return x.id!==id;});
-  else S.daily=S.daily.filter(function(x){return x.id!==id;});
-  sv();closeM();renderDaily();
+// ============================================================
+// DOUBLE TAP DETECTION FOR DAILY CARDS
+// ============================================================
+var _tapTimers={};
+function handleDcardTap(id,isForbid){
+  if(_tapTimers[id]){
+    // Double tap = cycle state
+    clearTimeout(_tapTimers[id]);
+    delete _tapTimers[id];
+    cycleTask(id,isForbid);
+  }else{
+    // Single tap = action sheet (with delay to detect double)
+    _tapTimers[id]=setTimeout(function(){
+      delete _tapTimers[id];
+      if(!isForbid)openTaskAction(id);
+      else cycleTask(id,true);
+    },280);
+  }
 }
 
 // ============================================================
@@ -1057,17 +1607,49 @@ function taskCardHTML(t){
   if(t.delayed)tag='<span class="task-tag delayed">⏩ 顺延</span>';
   else if(t.type==='main')tag='<span class="task-tag main">🚩 主线</span>';
   else tag='<span class="task-tag side">💠 支线</span>';
-  return '<div class="task-card'+(t.done?' done-card':'')+'">'
-    +'<div class="task-chk'+(t.done?' done':'')+'" onclick="togTask(\''+t.id+'\')">'+(t.done?'✓':'')+'</div>'
-    +'<div class="task-info"><div class="task-name">'+t.n+'</div>'
+  var diffBadge=t.diff?diffBadgeHTML(t.diff):'';
+  var isSSS=t.diff==='SSS',isSS=t.diff==='SS';
+  var cardCls='task-card'+(t.done?' done-card':isSS?' diff-SS-card':isSSS?' diff-SSS-card':'');
+  var subs=t.subtasks||[];
+  var subRows=subs.map(function(s){
+    var sc=s.done?' done':'';
+    var ss=s.done?' style="text-decoration:line-through;opacity:.5"':'';
+    return '<div class="subtask-row">'
+      +'<div class="subtask-chk'+sc+'" onclick="event.stopPropagation();togSubtask(\''+t.id+'\',\''+s.id+'\')">'+(s.done?'✓':'')+'</div>'
+      +'<span'+ss+'>'+s.n+'</span>'
+      +'<span onclick="event.stopPropagation();delSubtask(\''+t.id+'\',\''+s.id+'\')" style="margin-left:auto;color:var(--text3);cursor:pointer;font-size:16px;padding:0 4px">×</span>'
+      +'</div>';
+  });
+  var subHTML=(subs.length?'<div class="subtask-list">'+subRows.join('')+'</div>':'')
+    +'<div class="subtask-add" onclick="event.stopPropagation();addSubtask(\''+t.id+'\')">+ 添加子任务</div>';
+  var isSS=t.diff==='SS',isSSS=t.diff==='SSS';
+  var diffBadge=t.diff?diffBadgeHTML(t.diff):'';
+  var dc=t.done?' done-card':isSS?' diff-SS-card':isSSS?' diff-SSS-card':'';
+  var cc=t.done?' done':'';
+  return '<div class="task-card'+dc+'">'
+    +'<div class="task-chk'+cc+'" onclick="togTask(\''+t.id+'\')">'+(t.done?'✓':'')+'</div>'
+    +'<div class="task-info" style="width:100%;min-width:0">'
+    +'<div class="task-name">'+t.n+'</div>'
     +(t.sub?'<div class="task-sub">'+t.sub+'</div>':'')
-    +'<div>'+tag+'</div></div>'
-    +'<div class="task-del-btn" onclick="delTaskItem(\''+t.id+'\')">×</div></div>';
+    +'<div>'+tag+diffBadge+'</div>'
+    +subHTML
+    +'</div>'
+    +'<div class="task-del-btn" onclick="delTaskItem(\''+t.id+'\')">×</div>'
+    +'</div>';
 }
 
 function togTask(id){
   var t=S.tasks.find(function(x){return x.id===id;});if(!t)return;
+  var wasDone=t.done;
   t.done=!t.done;if(t.done)t.delayed=false;
+  if(t.done&&!wasDone){
+    var d=getDiff(t.diff||'E');
+    S.gold=(S.gold||0)+d.gold;
+    // Check newbie task
+    if(t.isNewbie)renderNewbieBanner();
+    // Show toast
+    showToast('✅ +'+d.gold+'💰 任务完成！');
+  }
   sv();renderTask();
 }
 function delTaskItem(id){
@@ -1167,6 +1749,7 @@ function openM(type){
     box.innerHTML='<div class="m-title">新增任务</div>'
       +'<div class="m-row"><div class="m-label">名称</div><input class="m-inp" id="mi-n" placeholder="任务名称"></div>'
       +'<div class="m-row"><div class="m-label">备注</div><input class="m-inp" id="mi-sub" placeholder="可选备注"></div>'
+      +'<div class="m-row"><div class="m-label">难度</div><select class="m-inp" id="mi-diff">'+DIFFS.map(function(d){return '<option value="'+d.k+'"'+(d.k==="C"?' selected':'')+'>'+d.l+'</option>';}).join('')+'</select></div>'
       +'<div class="m-row"><div class="m-label">类型</div><select class="m-inp" id="mi-type"><option value="main">🚩 主线任务</option><option value="side">💠 支线任务</option></select></div>'
       +'<div class="m-row"><div class="m-label">周期</div><select class="m-inp" id="mi-period"><option value="today">今日</option><option value="long">长期</option></select></div>'
       +'<div class="m-btns"><button class="m-btn m-btn-cancel" onclick="closeM()">取消</button>'
@@ -1204,7 +1787,9 @@ function saveAddTask(){
   var sub=document.getElementById('mi-sub').value.trim();
   var type=document.getElementById('mi-type').value;
   var period=document.getElementById('mi-period').value;
-  S.tasks.push({id:'t'+Date.now(),n:n,sub:sub,type:type,period:period,done:false,delayed:false,date:tod()});
+  var diff=document.getElementById('mi-diff')?document.getElementById('mi-diff').value:'C';
+  var gold=getDiff(diff).gold;
+  S.tasks.push({id:'t'+Date.now(),n:n,sub:sub,type:type,period:period,done:false,delayed:false,date:tod(),subtasks:[],diff:diff});
   sv();closeM();renderTask();
 }
 function saveAddMem(){
@@ -1216,6 +1801,1508 @@ function saveAddMem(){
   sv();closeM();renderMem();
 }
 
+
+// ============================================================
+// DIFFICULTY SYSTEM
+// ============================================================
+var DIFFS=[
+  {k:'E',l:'E级',c:'#666',cls:'diff-E',bg:'#f0f0f0',gold:5,exp:5},
+  {k:'D',l:'D级',c:'#2e7d32',cls:'diff-D',bg:'#e8f5e9',gold:10,exp:10},
+  {k:'C',l:'C级',c:'#1565c0',cls:'diff-C',bg:'#e3f2fd',gold:20,exp:20},
+  {k:'B',l:'B级',c:'#6a1b9a',cls:'diff-B',bg:'#f3e5f5',gold:40,exp:40},
+  {k:'A',l:'A级',c:'#e65100',cls:'diff-A',bg:'#fff8e1',gold:80,exp:80},
+  {k:'S',l:'S级',c:'#b71c1c',cls:'diff-S',bg:'#ffebee',gold:150,exp:150},
+  {k:'SS',l:'SS级',c:'#7b1fa2',cls:'diff-SS',bg:'',gold:300,exp:300},
+  {k:'SSS',l:'SSS级',c:'#fff',cls:'diff-SSS',bg:'#0a0a0a',gold:600,exp:600},
+];
+
+function getDiff(k){return DIFFS.find(function(d){return d.k===k;})||DIFFS[0];}
+
+function diffBadgeHTML(k){
+  var d=getDiff(k);
+  return '<span class="diff-badge '+d.cls+'">'+d.l+'</span>';
+}
+
+// ============================================================
+// CURRENCY
+// ============================================================
+function renderCurrency(elId){
+  var el=document.getElementById(elId);
+  if(!el)return;
+  el.innerHTML='<div class="currency-item currency-gold">💰 '+(S.gold||0)+'</div>'
+    +'<div class="currency-item currency-gem">💎 '+(S.gems||0)+'</div>';
+}
+
+// ============================================================
+// NEWBIE GUIDE
+// ============================================================
+var NEWBIE_TASKS=[
+  {id:'nb1',n:'打开时间轨迹，记录你的第一个15分钟',sub:'点底部「时间轨迹」，选择类别，点一个格子',diff:'E',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb2',n:'告诉AI你做了什么',sub:'点底部「AI」，输入「我刚刚读书了30分钟」',diff:'E',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb3',n:'完成一项每日任务',sub:'点底部「每日挑战」，完成任意一项打✓',diff:'D',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb4',n:'在任务系统新增一个属于你的任务',sub:'点底部「任务系统」→右上角+新增',diff:'D',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb5',n:'查看你的属性面板',sub:'点底部「属性」，看看你的角色装备状态',diff:'E',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb6',n:'进入里世界挑战第一只隐兽',sub:'点底部「里世界」，挑战E级隐兽',diff:'D',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb7',n:'运动15分钟',sub:'任意运动，完成后告诉AI「运动了15分钟」',diff:'D',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb8',n:'记录一条记忆',sub:'点底部「记忆」→+记录，写下此刻的感受',diff:'E',type:'side',period:'today',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb9',n:'坚持打卡3天',sub:'连续3天登录并完成至少1项每日挑战',diff:'C',type:'side',period:'long',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+  {id:'nb10',n:'解锁你的第一件装备',sub:'在里世界击败隐兽，获得装备掉落',diff:'C',type:'side',period:'long',done:false,delayed:false,date:'',subtasks:[],isNewbie:true},
+];
+
+function initNewbie(){
+  if(!S.newbie)S.newbie={active:true,step:0,dismissed:false};
+  if(S.newbie.dismissed)return;
+  // Add newbie tasks if not already there
+  var hasNb=S.tasks.some(function(t){return t.isNewbie;});
+  if(!hasNb){
+    var today=tod();
+    NEWBIE_TASKS.forEach(function(t){
+      var nt=JSON.parse(JSON.stringify(t));
+      nt.date=today;
+      S.tasks.push(nt);
+    });
+    sv();
+  }
+}
+
+function renderNewbieBanner(){
+  var el=document.getElementById('newbie-banner');
+  if(!el)return;
+  if(!S.newbie||S.newbie.dismissed){el.style.display='none';return;}
+  var nbTasks=S.tasks.filter(function(t){return t.isNewbie;});
+  var done=nbTasks.filter(function(t){return t.done;}).length;
+  var total=nbTasks.length;
+  var pct=total?Math.round(done/total*100):0;
+  el.style.display='';
+  el.innerHTML='<div class="newbie-title">🎮 新手任务 '+done+'/'+total+'</div>'
+    +'<div class="newbie-sub">完成新手任务，了解人生游戏的全部玩法！</div>'
+    +'<div class="newbie-progress"><div class="newbie-progress-fill" style="width:'+pct+'%"></div></div>'
+    +'<span class="newbie-skip" onclick="dismissNewbie()">我已熟悉，跳过新手引导</span>';
+}
+
+function dismissNewbie(){
+  if(!confirm('确定跳过新手引导？跳过后新手任务将从任务列表中移除。'))return;
+  S.newbie.dismissed=true;
+  S.tasks=S.tasks.filter(function(t){return !t.isNewbie;});
+  sv();
+  renderNewbieBanner();
+  renderTask();
+}
+
+// ============================================================
+// EQUIPMENT & CHARACTER PANEL
+// ============================================================
+var EQUIP_SLOTS=[
+  {k:'helm',    l:'头盔',   ic:'⛑️',  unlockAttr:'power', unlockVal:3},
+  {k:'armor',   l:'衣服',   ic:'🥋',  unlockAttr:'life',  unlockVal:3},
+  {k:'pants',   l:'裤子',   ic:'👖',  unlockAttr:'agile', unlockVal:3},
+  {k:'boots',   l:'鞋子',   ic:'👟',  unlockAttr:'agile', unlockVal:5},
+  {k:'weapon',  l:'武器',   ic:'⚔️',  unlockAttr:'power', unlockVal:5},
+  {k:'shield',  l:'防具',   ic:'🛡️',  unlockAttr:'life',  unlockVal:5},
+  {k:'necklace',l:'项链',   ic:'📿',  unlockAttr:'intel', unlockVal:5},
+  {k:'ring',    l:'戒指',   ic:'💍',  unlockAttr:'free',  unlockVal:5},
+];
+
+var ITEM_POOL=[
+  {id:'i1',name:'破旧短剑',slot:'weapon',ic:'🗡️',rarity:'E',atk:2},
+  {id:'i2',name:'皮革护甲',slot:'armor',ic:'🥋',rarity:'D',def:3},
+  {id:'i3',name:'铁盔',slot:'helm',ic:'⛑️',rarity:'D',def:2},
+  {id:'i4',name:'布鞋',slot:'boots',ic:'👟',rarity:'E',spd:1},
+  {id:'i5',name:'木盾',slot:'shield',ic:'🛡️',rarity:'D',def:4},
+  {id:'i6',name:'铜戒指',slot:'ring',ic:'💍',rarity:'C',int:2},
+  {id:'i7',name:'玉项链',slot:'necklace',ic:'📿',rarity:'C',int:3},
+  {id:'i8',name:'粗麻裤',slot:'pants',ic:'👖',rarity:'E',def:1},
+  {id:'i9',name:'精铁长剑',slot:'weapon',ic:'⚔️',rarity:'B',atk:8},
+  {id:'i10',name:'魔法长袍',slot:'armor',ic:'🥋',rarity:'A',def:10,int:5},
+  {id:'i11',name:'紫晶戒指',slot:'ring',ic:'💍',rarity:'B',int:6},
+  {id:'i12',name:'龙鳞盔',slot:'helm',ic:'⛑️',rarity:'S',def:15},
+];
+
+function renderEquipPage(){
+  var total=compTotalAttr();
+  renderCurrency('equip-currency');
+
+  // Character figure
+  var eq=S.equipment||{};
+  var lvl=Math.floor(Object.values(total).reduce(function(a,b){return a+b;},0)/10)+1;
+  var titles=['初学者','学徒','勇士','精英','大师','传奇','神话'];
+  var title=titles[Math.min(lvl-1,titles.length-1)];
+  var totalPts=Object.values(total).reduce(function(a,b){return a+b;},0);
+
+  // Determine char colors from armor rarity
+  var armorRarity=eq.armor?eq.armor.rarity:'none';
+  var rarityColors={none:'#888',E:'#aaa',D:'#66bb6a',C:'#42a5f5',B:'#ab47bc',A:'#ffa726',S:'#ef5350',SS:'#ff80ab',SSS:'#fff'};
+  var bodyColor=rarityColors[armorRarity]||'#888';
+
+  var helmetHTML=eq.helm?('<div class="c-helm" style="background:'+rarityColors[eq.helm.rarity]+'22;border:2px solid '+rarityColors[eq.helm.rarity]+'">'+eq.helm.ic+'</div>'):'';
+  var weaponHTML=eq.weapon?('<div class="c-weapon">'+eq.weapon.ic+'</div>'):'';
+  var shieldHTML=eq.shield?('<div class="c-shield">'+eq.shield.ic+'</div>'):'';
+  var neckHTML=eq.necklace?('<div class="c-necklace">'+eq.necklace.ic+'</div>'):'';
+  var ringHTML=eq.ring?('<div class="c-ring">'+eq.ring.ic+'</div>'):'';
+
+  document.getElementById('equip-char-panel').innerHTML=
+    '<div class="equip-hero-card">'
+    +'<div style="display:flex;align-items:flex-start;gap:12px">'
+    +'<div class="char-stage">'
+    +helmetHTML
+    +'<div class="c-head">'+( lvl>=5?'😎':lvl>=3?'🙂':'😊')+'</div>'
+    +neckHTML
+    +'<div class="c-body" style="background:'+bodyColor+'22;border:2px solid '+bodyColor+'">'+( eq.armor?eq.armor.ic:'👕')+'</div>'
+    +'<div class="c-arm-l" style="background:'+bodyColor+'44"></div>'
+    +'<div class="c-arm-r" style="background:'+bodyColor+'44"></div>'
+    +'<div class="c-legs">'
+    +'<div class="c-leg" style="background:'+(eq.pants?rarityColors[eq.pants.rarity]+'44':'#88888844')+'">'+(eq.pants?eq.pants.ic:'')+'</div>'
+    +'<div class="c-leg" style="background:'+(eq.pants?rarityColors[eq.pants.rarity]+'44':'#88888844')+'"></div>'
+    +'</div>'
+    +'<div class="c-boots">'
+    +'<div class="c-boot" style="background:'+(eq.boots?rarityColors[eq.boots.rarity]+'66':'#66666644')+'">'+(eq.boots?eq.boots.ic:'')+'</div>'
+    +'<div class="c-boot" style="background:'+(eq.boots?rarityColors[eq.boots.rarity]+'66':'#66666644')+'"></div>'
+    +'</div>'
+    +weaponHTML+shieldHTML+ringHTML
+    +'</div>'
+    +'<div style="flex:1">'
+    +'<div style="color:#fff;font-size:18px;font-weight:800">'+S.playerName+'</div>'
+    +'<div style="color:#ffcc88;font-size:11px;margin:2px 0 8px">Lv.'+lvl+' '+title+'</div>'
+    +'<div style="color:#ffffff60;font-size:10px;margin-bottom:4px">经验值</div>'
+    +'<div style="height:6px;background:#ffffff18;border-radius:3px;overflow:hidden;margin-bottom:10px">'
+    +'<div style="height:100%;width:'+(totalPts%10*10)+'%;background:linear-gradient(90deg,#ffd700,#ff8c00);border-radius:3px"></div></div>'
+    +'<div style="color:#ffd700;font-size:12px">💰 '+(S.gold||0)+'  💎 '+(S.gems||0)+'</div>'
+    +'</div></div></div>';
+
+  // Equipment slots - always show, unlock based on attr
+  document.getElementById('equip-slots').innerHTML=EQUIP_SLOTS.map(function(sl){
+    var attrVal=(total[sl.unlockAttr]||0);
+    var unlocked=attrVal>=sl.unlockVal;
+    var item=eq[sl.k];
+    var accessible=unlocked||!!item;
+    var hasInv=(S.inventory||[]).some(function(i2){return i2.slot===sl.k;});
+    var cls='equip-slot-box'+(item?' equipped':'')+(accessible?'':' locked');
+    return '<div class="'+cls+'" onclick="'+(accessible?'openEquipSlot(\''+sl.k+'\')':'')+'">'
+      +(accessible?'':'<div class="equip-lock-ic">🔒</div>')
+      +'<div class="equip-slot-ic">'+(item?item.ic:sl.ic)+'</div>'
+      +'<div class="equip-slot-name">'+sl.l+'</div>'
+      +(item?'<div class="equip-slot-item" style="color:var(--accent)">'+item.name+'</div>':(accessible&&hasInv?'<div class="equip-slot-item" style="color:#4caf50">点击装备</div>':''))
+      +(accessible?'':'<div style="font-size:9px;color:#666;text-align:center">'+sl.unlockAttr+' ≥'+sl.unlockVal+'</div>')
+      +'</div>';
+  }).join('');
+
+  // Stats
+  document.getElementById('equip-stats').innerHTML=ATTRS.map(function(a){
+    var v=total[a.k]||0;
+    return '<div class="equip-stat-row">'
+      +'<div class="equip-stat-ic">'+a.ic+'</div>'
+      +'<div class="equip-stat-info"><div class="equip-stat-name">'+a.l+'</div>'
+      +'<div class="equip-stat-val" style="color:'+a.c+'">'+fmtNum(v)+'</div></div>'
+      +'</div>';
+  }).join('');
+}
+
+function openEquipSlot(slotKey){
+  var inv=S.inventory||[];
+  var matching=inv.filter(function(i){return i.slot===slotKey;});
+  var sl=EQUIP_SLOTS.find(function(s){return s.k===slotKey;})||{l:slotKey};
+  var box=document.getElementById('m-box');
+  var currentItem=S.equipment&&S.equipment[slotKey];
+  var html='<div class="m-title">'+sl.l+'槽位</div>';
+  if(currentItem){
+    html+='<div style="background:#ff950015;border:1px solid var(--accent);border-radius:10px;padding:12px;margin-bottom:12px;display:flex;align-items:center;gap:10px">';
+    html+='<span style="font-size:28px">'+currentItem.ic+'</span>';
+    html+='<div style="flex:1"><div style="font-weight:700;color:var(--accent)">当前装备：'+currentItem.name+'</div>'+diffBadgeHTML(currentItem.rarity)+'</div>';
+    html+='<button class="m-btn m-btn-del" style="flex:none;padding:8px 12px" onclick="unequipItem(\''+slotKey+'\')" >卸下</button></div>';
+  }
+  if(matching.length){
+    html+='<div style="font-size:11px;color:var(--text2);margin-bottom:8px">背包可用（'+matching.length+'件）：</div>';
+    html+=matching.map(function(item){
+      return '<div style="background:var(--bg3);border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;border:1px solid var(--border)" onclick="equipItem(\''+slotKey+'\',\''+item.id+'\')">';
+    }).join('');
+    // rebuild properly
+    html=html.replace(matching.map(function(item){
+      return '<div style="background:var(--bg3);border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;border:1px solid var(--border)" onclick="equipItem(\''+slotKey+'\',\''+item.id+'\')">';
+    }).join(''),'');
+    matching.forEach(function(item){
+      html+='<div style="background:var(--bg3);border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;border:1px solid var(--border)" onclick="equipItem(\''+slotKey+'\',\''+item.id+'\')">';
+      html+='<span style="font-size:28px">'+item.ic+'</span>';
+      html+='<div style="flex:1"><div style="font-weight:700">'+item.name+'</div>'+diffBadgeHTML(item.rarity)+'</div>';
+      html+='<span style="color:var(--accent);font-size:13px;font-weight:700">装备›</span></div>';
+    });
+  }else{
+    html+='<div style="text-align:center;color:var(--text3);padding:20px;font-size:13px">背包里还没有'+sl.l+'<br>去里世界击败隐兽获得装备！</div>';
+  }
+  html+='<div class="m-btns"><button class="m-btn m-btn-cancel" onclick="closeM()">关闭</button></div>';
+  box.innerHTML=html;
+  document.getElementById('m-bg').classList.add('open');
+}
+
+function equipItem(slotKey,itemId){
+  var inv=S.inventory||[];
+  var item=inv.find(function(i){return i.id===itemId;});
+  if(!item)return;
+  if(!S.equipment)S.equipment={};
+  S.equipment[slotKey]=item;
+  sv();closeM();renderEquipPage();
+}
+
+function unequipItem(slotKey){
+  if(S.equipment)S.equipment[slotKey]=null;
+  sv();closeM();renderEquipPage();
+}
+
+// ============================================================
+// INNER WORLD / BEASTS
+// ============================================================
+var BEAST_DEFS=[
+  {rank:'E',  name:'迷失之影', ic:'👤', hp:30,   atk:2,   dropGold:[5,15],     dropGem:0,  dropRarity:'E',   desc:'游荡在边界的弱小存在',   color:'#888',    needAttr:0,  needFight:0},
+  {rank:'D',  name:'荒野狼魂', ic:'🐺', hp:80,   atk:8,   dropGold:[15,35],    dropGem:0,  dropRarity:'D',   desc:'嗜血的野性之魂',         color:'#66bb6a', needAttr:5,  needFight:3},
+  {rank:'C',  name:'熔岩蜥蜴', ic:'🦎', hp:200,  atk:18,  dropGold:[30,60],    dropGem:1,  dropRarity:'C',   desc:'藏于火山深处的远古生物', color:'#42a5f5', needAttr:15, needFight:8},
+  {rank:'B',  name:'暗影巨蟒', ic:'🐍', hp:500,  atk:35,  dropGold:[60,120],   dropGem:2,  dropRarity:'B',   desc:'统治地下世界的蛇王',     color:'#ab47bc', needAttr:30, needFight:20},
+  {rank:'A',  name:'黄金凤凰', ic:'🦅', hp:1200, atk:65,  dropGold:[120,250],  dropGem:3,  dropRarity:'A',   desc:'传说中浴火重生的神鸟',   color:'#ffa726', needAttr:60, needFight:45},
+  {rank:'S',  name:'血月恶魔', ic:'😈', hp:3000, atk:120, dropGold:[250,500],  dropGem:5,  dropRarity:'S',   desc:'只在血月出现的顶级猎手', color:'#ef5350', needAttr:120,needFight:90},
+  {rank:'SS', name:'混沌龙神', ic:'🐉', hp:8000, atk:220, dropGold:[500,1000], dropGem:10, dropRarity:'SS',  desc:'掌控混沌之力的神龙',     color:'#ff80ab', needAttr:250,needFight:180},
+  {rank:'SSS',name:'虚空之主', ic:'🌑', hp:20000,atk:500, dropGold:[1000,3000],dropGem:20, dropRarity:'SSS', desc:'超越一切存在的绝对强者', color:'#fff',    needAttr:500,needFight:350},
+];
+
+function initBeasts(){
+  if(S.beasts)return;
+  S.beasts=BEAST_DEFS.map(function(b){
+    return {rank:b.rank,hp:b.hp,maxHp:b.hp,defeated:0};
+  });
+  sv();
+}
+
+function renderInnerWorld(){
+  initBeasts();
+  renderCurrency('iw-currency');
+  var total=compTotalAttr();
+  var playerPower=Object.values(total).reduce(function(a,b){return a+b;},0);
+
+  document.getElementById('beast-list').innerHTML=BEAST_DEFS.map(function(b,i){
+    var bstate=S.beasts[i];
+    var canSee=playerPower>=b.needAttr;
+    var canFight=playerPower>=b.needFight;
+
+    // Hidden beast - not enough attr to even see
+    if(!canSee){
+      return '<div class="beast-card" style="border-color:#333;opacity:.5">'
+        +'<div class="beast-top">'
+        +'<div class="beast-ic" style="font-size:40px;filter:blur(4px)">❓</div>'
+        +'<div class="beast-info">'
+        +'<div class="beast-name" style="color:#555">??? 未知隐兽</div>'
+        +'<div class="beast-rank" style="color:#444">【'+b.rank+'级 · 需要总属性'+b.needAttr+'】</div>'
+        +'<div class="beast-drop" style="color:#444">提升属性后方可发现</div>'
+        +'</div></div></div>';
+    }
+
+    var hpPct=Math.round(bstate.hp/b.hp*100);
+    return '<div class="beast-card beast-'+b.rank+'">'
+      +'<div class="beast-top">'
+      +'<div class="beast-ic">'+b.ic+'</div>'
+      +'<div class="beast-info">'
+      +'<div class="beast-name" style="color:'+b.color+'">'+b.name+'</div>'
+      +'<div class="beast-rank" style="color:'+b.color+'">【'+b.rank+'级隐兽】</div>'
+      +'<div class="beast-drop">掉落：'+b.dropRarity+'级装备 | 💰'+b.dropGold[0]+'-'+b.dropGold[1]+(b.dropGem>0?' | 💎×'+b.dropGem:'')+'</div>'
+      +'</div>'
+      +(canFight
+        ?'<button class="fight-btn" onclick="startBattle('+i+')" style="background:'+b.color+'">挑战</button>'
+        :'<div style="font-size:10px;color:#666;text-align:center;padding:4px 8px">需要<br>'+b.needFight+'属性</div>')
+      +'</div>'
+      +'<div class="beast-hp-bar"><div class="beast-hp-fill" style="width:'+hpPct+'%;background:'+b.color+'"></div></div>'
+      +'<div style="font-size:10px;color:#ffffff40;margin-top:4px">HP: '+bstate.hp+'/'+b.hp+' · 已击败'+bstate.defeated+'次</div>'
+      +'</div>';
+  }).join('');
+
+  drawStars();
+}
+
+function drawStars(){
+  var canvas=document.getElementById('iw-stars-canvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  canvas.width=canvas.offsetWidth;
+  canvas.height=canvas.offsetHeight;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(var i=0;i<120;i++){
+    var x=Math.random()*canvas.width;
+    var y=Math.random()*canvas.height;
+    var r=Math.random()*1.5;
+    ctx.beginPath();
+    ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,'+(Math.random()*0.8+0.2)+')';
+    ctx.fill();
+  }
+}
+
+
+// ============================================================
+// BATTLE SYSTEM
+// ============================================================
+var SKILLS=[
+  {id:'atk',  name:'普通攻击', ic:'⚔️',  mp:0,  cd:0,  cdMax:0, desc:'基础攻击',        type:'atk',  power:1.0},
+  {id:'heavy', name:'重击',    ic:'🔨',  mp:8,  cd:0,  cdMax:3, desc:'1.8x伤害+晕眩',  type:'atk',  power:1.8, effect:'stun'},
+  {id:'fire',  name:'烈焰斩',  ic:'🔥',  mp:12, cd:0,  cdMax:0, desc:'1.5x伤害+燃烧',  type:'atk',  power:1.5, effect:'burn'},
+  {id:'heal',  name:'疗愈',    ic:'💚',  mp:15, cd:0,  cdMax:4, desc:'回复30%HP',       type:'heal', power:.3},
+  {id:'guard', name:'铁盾防御',ic:'🛡️', mp:5,  cd:0,  cdMax:2, desc:'本回合防御+80%',  type:'buff', effect:'guard'},
+  {id:'rage',  name:'怒气爆发',ic:'💢',  mp:0,  cd:0,  cdMax:5, desc:'消耗HP换取3x伤害',type:'atk',  power:3.0, effect:'rage'},
+  {id:'stun',  name:'眩晕冲击',ic:'⚡',  mp:18, cd:0,  cdMax:0, desc:'2x伤害，敌人跳过下回合',type:'atk',power:2.0,effect:'stun2'},
+  {id:'multi', name:'连斩',    ic:'🌪️', mp:20, cd:0,  cdMax:0, desc:'3连击，各0.7x',   type:'multi',power:.7},
+];
+
+var BS={ // battle state
+  active:false, turn:0,
+  enemy:{name:'',ic:'',hp:0,maxHp:0,atk:0,rank:'E',color:'#888',idx:0},
+  player:{hp:0,maxHp:0,mp:0,maxMp:0,atk:0,def:0,stunned:false,guarding:false},
+  cooldowns:{}, // skillId -> turns remaining
+  statusEnemy:{burn:0,stunned:0},
+  beastIdx:0,
+};
+
+function calcPlayerStats(){
+  var total=compTotalAttr();
+  var pow=total.power||0, int=total.intel||0, agi=total.agile||0, life=total.life||0;
+  var eq=S.equipment||{};
+  var eqAtk=eq.weapon?[0,2,4,6,8,15,30,60][['E','D','C','B','A','S','SS','SSS'].indexOf(eq.weapon.rarity)||0]:0;
+  var eqDef=eq.shield?[0,1,2,4,8,15,30,60][['E','D','C','B','A','S','SS','SSS'].indexOf(eq.shield.rarity)||0]:0;
+  return {
+    maxHp: Math.floor(50 + life*12 + pow*4),
+    maxMp: Math.floor(30 + int*8),
+    atk:   Math.floor(5 + pow*3 + eqAtk),
+    def:   Math.floor(2 + agi*1.5 + eqDef),
+  };
+}
+
+function startBattle(beastIdx){
+  var b=BEAST_DEFS[beastIdx];
+  var bstate=S.beasts[beastIdx];
+  var total=compTotalAttr();
+  var power=Object.values(total).reduce(function(a,b2){return a+b2;},0);
+  if(power<b.needFight){showToast('属性不足！需要总属性'+b.needFight+'，当前'+Math.floor(power));return;}
+
+  var ps=calcPlayerStats();
+  BS.active=true;
+  BS.turn=1;
+  BS.beastIdx=beastIdx;
+  BS.enemy={name:b.name,ic:b.ic,hp:b.hp,maxHp:b.hp,atk:b.atk,rank:b.rank,color:b.color,idx:beastIdx};
+  BS.player={hp:ps.maxHp,maxHp:ps.maxHp,mp:ps.maxMp,maxMp:ps.maxMp,atk:ps.atk,def:ps.def,stunned:false,guarding:false};
+  BS.cooldowns={};
+  BS.statusEnemy={burn:0,stunned:0};
+
+  // Setup UI
+  var playerIc=power<5?'🧙':power<20?'🧙‍♂️':power<50?'🧝':power<100?'🦸':'🦹';
+  document.getElementById('bs-player-sprite').textContent=playerIc;
+  document.getElementById('bs-player-name').textContent=S.playerName||'冒险者';
+  document.getElementById('bs-enemy-sprite').textContent=b.ic;
+  document.getElementById('bs-enemy-sprite').style.setProperty('--beast-glow',b.color);
+  document.getElementById('bs-enemy-sprite').style.setProperty('--beast-c',b.color);
+  document.getElementById('bs-enemy-name').textContent='【'+b.rank+'】'+b.name;
+  document.getElementById('bs-enemy-name').style.color=b.color;
+
+  document.getElementById('bs-result').style.display='none';
+  document.getElementById('bs-log').innerHTML='';
+
+  // Draw bg stars
+  var c=document.getElementById('bs-stars');
+  if(c){c.width=window.innerWidth;c.height=window.innerHeight;
+    var ctx=c.getContext('2d');
+    for(var i=0;i<100;i++){ctx.beginPath();ctx.arc(Math.random()*c.width,Math.random()*c.height*0.5,Math.random()*1.5,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+(Math.random()*.6+.1)+')';ctx.fill();}}
+
+  bsUpdateUI();
+  bsRenderSkills();
+  bsLog('战斗开始！【'+b.rank+'级隐兽】'+b.name+'出现了！','sys');
+
+  document.getElementById('battle-screen').classList.add('open');
+}
+
+function bsUpdateUI(){
+  var p=BS.player,e=BS.enemy;
+  // Enemy HP
+  var ePct=Math.max(0,e.hp/e.maxHp*100);
+  document.getElementById('bs-enemy-hp-fill').style.width=ePct+'%';
+  document.getElementById('bs-enemy-hp-fill').style.background=ePct>50?e.color:ePct>25?'#ffa726':'#ef5350';
+  document.getElementById('bs-enemy-hp-txt').textContent=Math.max(0,Math.floor(e.hp))+'/'+e.maxHp;
+  // Player HP/MP
+  var hPct=Math.max(0,p.hp/p.maxHp*100);
+  document.getElementById('bs-player-hp-fill').style.width=hPct+'%';
+  document.getElementById('bs-player-hp-fill').style.background=hPct>50?'#4caf50':hPct>25?'#ffa726':'#ef5350';
+  document.getElementById('bs-player-hp-txt').textContent=Math.max(0,Math.floor(p.hp))+'/'+p.maxHp;
+  var mPct=p.mp/p.maxMp*100;
+  document.getElementById('bs-player-mp-fill').style.width=mPct+'%';
+  document.getElementById('bs-player-mp-txt').textContent=Math.floor(p.mp)+'/'+p.maxMp;
+  document.getElementById('bs-turn').textContent='回合 '+BS.turn;
+  // Stat row
+  document.getElementById('bs-player-statrow').innerHTML=
+    '<span>⚔️'+BS.player.atk+'</span><span>🛡️'+BS.player.def+'</span>'
+    +(BS.player.guarding?'<span style="color:#ffd700">🔰防御中</span>':'')
+    +(BS.player.stunned?'<span style="color:#ef5350">💫晕眩</span>':'')
+    +(BS.statusEnemy.burn>0?'<span style="color:#ff5722">🔥燃烧'+BS.statusEnemy.burn+'</span>':'')
+    +(BS.statusEnemy.stunned>0?'<span style="color:#fff176">💫晕眩'+BS.statusEnemy.stunned+'</span>':'');
+}
+
+function bsRenderSkills(){
+  document.getElementById('bs-skill-grid').innerHTML=SKILLS.map(function(sk){
+    var cd=BS.cooldowns[sk.id]||0;
+    var noMp=sk.mp>BS.player.mp;
+    var onCd=cd>0;
+    var cls='bs-skill-btn'+(onCd?' on-cooldown':noMp?' mp-empty':'');
+    return '<div class="'+cls+'" onclick="useSkill(\''+sk.id+'\')">'
+      +'<div class="bs-skill-ic">'+sk.ic+'</div>'
+      +'<div class="bs-skill-name">'+sk.name+'</div>'
+      +(onCd?'<div class="bs-skill-cd">CD:'+cd+'</div>'
+           :sk.mp>0?'<div class="bs-skill-mp">'+sk.mp+'MP</div>':'<div class="bs-skill-mp" style="color:#888">Free</div>')
+      +'</div>';
+  }).join('');
+}
+
+function useSkill(skillId){
+  if(!BS.active)return;
+  var sk=SKILLS.find(function(s){return s.id===skillId;});
+  if(!sk)return;
+  var cd=BS.cooldowns[skillId]||0;
+  if(cd>0){showToast('技能冷却中（'+cd+'回合）');return;}
+  if(sk.mp>BS.player.mp){showToast('MP不足！');return;}
+  if(BS.player.stunned){bsLog(S.playerName+'被晕眩，无法行动！','sys');BS.player.stunned=false;bsEnemyTurn();return;}
+
+  BS.player.mp=Math.max(0,BS.player.mp-sk.mp);
+  if(sk.cdMax>0)BS.cooldowns[skillId]=sk.cdMax;
+
+  // Animate player
+  var pSprite=document.getElementById('bs-player-sprite');
+  pSprite.classList.remove('attacking');void pSprite.offsetWidth;pSprite.classList.add('attacking');
+  setTimeout(function(){pSprite.classList.remove('attacking');},400);
+
+  var dmg=0;
+  if(sk.type==='atk'||sk.type==='multi'){
+    if(sk.type==='multi'){
+      // 3 hits
+      [0,200,400].forEach(function(delay,i){
+        setTimeout(function(){
+          var d=Math.floor(BS.player.atk*sk.power*(0.85+Math.random()*.3));
+          var isCrit=Math.random()<.15;
+          if(isCrit)d=Math.floor(d*1.8);
+          dmg+=d;
+          bsDealDamageToEnemy(d,isCrit,'第'+(i+1)+'击');
+        },delay);
+      });
+      setTimeout(function(){
+        bsLog(S.playerName+'使用【'+sk.name+'】连续3击！','skill');
+        bsPostPlayerTurn(sk);
+      },700);
+      return;
+    }
+    if(sk.effect==='rage'){
+      // Spend 20% HP
+      var rageCost=Math.floor(BS.player.maxHp*.2);
+      BS.player.hp=Math.max(1,BS.player.hp-rageCost);
+      bsLog('消耗'+rageCost+'HP，爆发怒气！','skill');
+    }
+    dmg=Math.floor(BS.player.atk*sk.power*(0.85+Math.random()*.3));
+    var isCrit=Math.random()<.2;
+    if(isCrit)dmg=Math.floor(dmg*1.8);
+    bsDealDamageToEnemy(dmg,isCrit,sk.name);
+    if(sk.effect==='burn')BS.statusEnemy.burn=3;
+    if(sk.effect==='stun'||sk.effect==='stun2')BS.statusEnemy.stunned=1;
+    bsLog(S.playerName+'使用【'+sk.name+'】'+(isCrit?' 暴击！':''),'skill');
+  }else if(sk.type==='heal'){
+    var healAmt=Math.floor(BS.player.maxHp*sk.power);
+    BS.player.hp=Math.min(BS.player.maxHp,BS.player.hp+healAmt);
+    bsFloatNumber('+'+healAmt,'heal',false);
+    bsLog(S.playerName+'使用【'+sk.name+'】恢复了'+healAmt+'HP！','skill');
+  }else if(sk.type==='buff'&&sk.effect==='guard'){
+    BS.player.guarding=true;
+    bsLog(S.playerName+'摆出防御姿态！本回合伤害-80%','skill');
+  }
+  bsPostPlayerTurn(sk);
+}
+
+function bsDealDamageToEnemy(dmg,isCrit,label){
+  BS.enemy.hp-=dmg;
+  // Animate enemy
+  var eSprite=document.getElementById('bs-enemy-sprite');
+  eSprite.classList.remove('hit');void eSprite.offsetWidth;eSprite.classList.add('hit');
+  setTimeout(function(){eSprite.classList.remove('hit');},300);
+  bsFloatNumber((isCrit?'💥 ':'')+dmg,(isCrit?'crit':'player-dmg'),true);
+  bsUpdateUI();
+  if(BS.enemy.hp<=0)bsWin();
+}
+
+function bsPostPlayerTurn(sk){
+  if(!BS.active)return;
+  bsUpdateUI();bsRenderSkills();
+  if(BS.enemy.hp<=0){bsWin();return;}
+  // Enemy turn after delay
+  setTimeout(bsEnemyTurn,800);
+}
+
+function bsEnemyTurn(){
+  if(!BS.active)return;
+  BS.turn++;
+  // Tick cooldowns
+  Object.keys(BS.cooldowns).forEach(function(k){if(BS.cooldowns[k]>0)BS.cooldowns[k]--;});
+  // Regen 2 MP per turn
+  BS.player.mp=Math.min(BS.player.maxMp,BS.player.mp+3);
+  // Burn damage to enemy
+  if(BS.statusEnemy.burn>0){
+    var burnDmg=Math.floor(BS.player.atk*.4);
+    BS.enemy.hp-=burnDmg;
+    BS.statusEnemy.burn--;
+    bsLog('🔥 燃烧效果造成'+burnDmg+'点伤害！','skill');
+    bsFloatNumber(burnDmg,'player-dmg',true);
+    if(BS.enemy.hp<=0){bsWin();return;}
+  }
+  // Enemy stunned?
+  if(BS.statusEnemy.stunned>0){
+    BS.statusEnemy.stunned--;
+    bsLog('💫 '+BS.enemy.name+'被晕眩，跳过行动！','sys');
+    bsUpdateUI();bsRenderSkills();return;
+  }
+  // Enemy attacks - random move
+  var roll=Math.random();
+  var atkName,multiplier;
+  if(roll<.15&&BS.turn>3){atkName='狂暴连击';multiplier=1.6;}
+  else if(roll<.30){atkName='猛力一击';multiplier=1.3;}
+  else{atkName='普通攻击';multiplier=1.0;}
+
+  var rawDmg=Math.floor(BS.enemy.atk*multiplier*(0.85+Math.random()*.3));
+  var def=BS.player.guarding?Math.floor(BS.player.def*5):BS.player.def;
+  var finalDmg=Math.max(1,rawDmg-def);
+  BS.player.guarding=false;
+  BS.player.hp=Math.max(0,BS.player.hp-finalDmg);
+
+  // Animate player hit
+  var pSprite=document.getElementById('bs-player-sprite');
+  pSprite.classList.remove('hurt');void pSprite.offsetWidth;pSprite.classList.add('hurt');
+  setTimeout(function(){pSprite.classList.remove('hurt');},300);
+  bsFloatNumber('-'+finalDmg,'enemy-dmg',false);
+  bsLog(BS.enemy.name+'使用'+atkName+'，对你造成'+finalDmg+'点伤害！'+(BS.player.guarding?'（防御减伤）':''),'enemy-atk');
+  bsUpdateUI();bsRenderSkills();
+  if(BS.player.hp<=0)bsLose();
+}
+
+function bsWin(){
+  BS.active=false;
+  var b=BEAST_DEFS[BS.beastIdx];
+  var bstate=S.beasts[BS.beastIdx];
+  bstate.defeated++;bstate.hp=b.hp;
+  var goldEarned=b.dropGold[0]+Math.floor(Math.random()*(b.dropGold[1]-b.dropGold[0]));
+  var gemEarned=(b.dropGem>0&&Math.random()<.4)?b.dropGem:0;
+  S.gold=(S.gold||0)+goldEarned;S.gems=(S.gems||0)+gemEarned;
+  var itemDrop=null;
+  if(Math.random()<.30){
+    var pool=ITEM_POOL.filter(function(i){return i.rarity===b.dropRarity;});
+    if(pool.length){itemDrop=JSON.parse(JSON.stringify(pool[Math.floor(Math.random()*pool.length)]));itemDrop.id='drop'+Date.now();if(!S.inventory)S.inventory=[];S.inventory.push(itemDrop);}
+  }
+  sv();
+  // Enemy death animation
+  var eSprite=document.getElementById('bs-enemy-sprite');
+  eSprite.classList.add('dead');
+  setTimeout(function(){
+    var rTitle=document.getElementById('bs-result-title');
+    rTitle.textContent='⚔️ 胜利！';rTitle.style.color='#ffd700';
+    var rwdHTML='<div class="bs-result-row">💰 +'+goldEarned+' 金币</div>'
+      +(gemEarned?'<div class="bs-result-row">💎 +'+gemEarned+' 宝石</div>':'')
+      +(itemDrop?'<div class="bs-result-row" style="color:#ffd700">🎁 '+itemDrop.ic+' '+itemDrop.name+' 已入背包</div>':'<div class="bs-result-row" style="color:#666">未获得装备掉落</div>');
+    document.getElementById('bs-result-rewards').innerHTML=rwdHTML;
+    var btn=document.getElementById('bs-result-btn');
+    btn.style.background='linear-gradient(135deg,#7b2fd4,#4a1a8a)';
+    btn.textContent='✨ 收下战利品';
+    document.getElementById('bs-result').style.display='flex';
+  },600);
+}
+
+function bsLose(){
+  BS.active=false;
+  var rTitle=document.getElementById('bs-result-title');
+  rTitle.textContent='💀 战败';rTitle.style.color='#ef5350';
+  document.getElementById('bs-result-rewards').innerHTML='<div class="bs-result-row" style="color:#888">你被击倒了……</div><div class="bs-result-row" style="color:#888">提升属性，再来一战！</div>';
+  var btn=document.getElementById('bs-result-btn');
+  btn.style.background='#3a1a1a';btn.textContent='撤退';
+  document.getElementById('bs-result').style.display='flex';
+}
+
+function battleFlee(){
+  if(Math.random()<.5){
+    BS.active=false;
+    closeBattleScreen();
+    showToast('成功逃跑！');
+  }else{
+    bsLog('逃跑失败！',  'enemy-atk');
+    bsEnemyTurn();
+  }
+}
+
+function closeBattleScreen(){
+  BS.active=false;
+  document.getElementById('battle-screen').classList.remove('open');
+  renderInnerWorld();
+}
+
+function bsLog(msg,cls){
+  var el=document.getElementById('bs-log');
+  var div=document.createElement('div');
+  div.className='bs-log-line '+(cls||'');
+  div.textContent=msg;
+  el.appendChild(div);
+  el.scrollTop=el.scrollHeight;
+  // Keep max 20 lines
+  while(el.children.length>20)el.removeChild(el.firstChild);
+}
+
+function bsFloatNumber(text,cls,isEnemy){
+  var container=document.getElementById('bs-floats');
+  var el=document.createElement('div');
+  el.className='bs-dmg-float '+cls;
+  el.textContent=text;
+  el.style.left=(isEnemy?(30+Math.random()*40):(10+Math.random()*30))+'%';
+  el.style.top=(isEnemy?(15+Math.random()*20):(55+Math.random()*15))+'%';
+  container.appendChild(el);
+  setTimeout(function(){el.remove();},900);
+}
+
+
+
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2000);
+}
+
+// ============================================================
+// TASK ACTION SHEET
+// ============================================================
+var _actionTask=null;
+
+function openTaskAction(taskId){
+  var t=S.daily.find(function(x){return x.id===taskId;});
+  if(!t)return;
+  _actionTask=t;
+  var box=document.getElementById('task-action-box');
+  box.innerHTML='<div class="task-action-title">'+t.ic+' '+t.n+'</div>'
+    +'<div class="task-action-sub">'+(t.rwd||'完成今日任务')+'</div>'
+    +'<div class="action-section-label">📋 直接记录完成时长</div>'
+    +'<div class="duration-pills">'
+    +['15分钟','30分钟','45分钟','1小时','1.5小时','2小时','3小时'].map(function(d){
+      return '<div class="dur-pill" onclick="quickFinish(\''+taskId+'\',\''+d+'\')">'+d+'</div>';
+    }).join('')
+    +'</div>'
+    +'<div class="action-section-label">⏱ 现在开始计时</div>'
+    +'<div class="timer-btns">'
+    +'<div class="timer-btn count-up" onclick="startDojo(\''+taskId+'\',\'up\',0)">'
+    +'<div class="timer-btn-ic">⏱</div><div>正计时</div><div style="font-size:11px;opacity:.6">从0开始</div></div>'
+    +'<div class="timer-btn count-down" onclick="openCountdownPicker(\''+taskId+'\')">'
+    +'<div class="timer-btn-ic">⏳</div><div>倒计时</div><div style="font-size:11px;opacity:.6">设定目标</div></div>'
+    +'</div>'
+    +'<div class="m-btns" style="margin-top:16px"><button class="m-btn m-btn-cancel" onclick="closeTaskAction()">取消</button></div>';
+  document.getElementById('task-action-sheet').classList.add('open');
+}
+
+function openCountdownPicker(taskId){
+  var box=document.getElementById('task-action-box');
+  box.innerHTML='<div class="task-action-title">⏳ 设定倒计时目标</div>'
+    +'<div class="duration-pills">'
+    +[[15,'15分钟'],[30,'30分钟'],[45,'45分钟'],[60,'1小时'],[90,'1.5小时'],[120,'2小时']].map(function(d){
+      return '<div class="dur-pill" onclick="startDojo(\''+taskId+'\',\'down\','+d[0]+')">'+d[1]+'</div>';
+    }).join('')
+    +'</div>'
+    +'<div class="m-btns" style="margin-top:16px"><button class="m-btn m-btn-cancel" onclick="closeTaskAction()">取消</button></div>';
+}
+
+function closeTaskAction(){
+  document.getElementById('task-action-sheet').classList.remove('open');
+  _actionTask=null;
+}
+
+function quickFinish(taskId,durStr){
+  var t=S.daily.find(function(x){return x.id===taskId;});
+  if(!t)return;
+  var mins={'15分钟':15,'30分钟':30,'45分钟':45,'1小时':60,'1.5小时':90,'2小时':120,'3小时':180};
+  var m=mins[durStr]||30;
+  t.st='d';
+  if(!t.winStreak)t.winStreak=0;
+  t.winStreak++;t.loseStreak=0;
+  // Write to time tracker
+  var dur=m/60;
+  writeSlots('rest','休息',dur); // will be categorized properly
+  // Award attrs via AI parser hint
+  var msg='完成了'+t.n+' '+durStr;
+  var act=parseActivity(msg);
+  if(act){writeSlots(act.cat,act.sub,dur);}
+  closeTaskAction();
+  sv();renderDaily();
+  showToast('✅ '+t.n+' 完成！');
+}
+
+// ============================================================
+// DOJO SYSTEM
+// ============================================================
+var _dojo={
+  taskId:null, mode:'up', targetMins:0,
+  elapsed:0, paused:false, interval:null,
+  animInterval:null, particleInterval:null
+};
+
+function startDojo(taskId,mode,targetMins){
+  closeTaskAction();
+  var t=S.daily.find(function(x){return x.id===taskId;});
+  if(!t)t={ic:'⚔️',n:'练功',rwd:''};
+  _dojo.taskId=taskId;
+  _dojo.mode=mode;
+  _dojo.targetMins=targetMins;
+  _dojo.elapsed=0;
+  _dojo.paused=false;
+
+  // Setup UI
+  document.getElementById('dojo-task-name').textContent=t.ic+' '+t.n;
+  document.getElementById('dojo-mode-label').textContent=mode==='up'?'正计时 — 练多久算多久':'倒计时 — 目标 '+targetMins+'分钟';
+  document.getElementById('dojo-ring').style.display=mode==='down'?'block':'none';
+  document.getElementById('dojo-pause-btn').textContent='⏸ 暂停';
+
+  // Update char appearance from equipment
+  updateDojoChar();
+
+  // Open dojo
+  document.getElementById('dojo').classList.add('open');
+  drawDojoStars();
+  startDojoTimer();
+  startDojoParticles();
+}
+
+function updateDojoChar(){
+  var eq=S.equipment||{};
+  var total=compTotalAttr();
+  var power=Object.values(total).reduce(function(a,b){return a+b;},0);
+  // Aura color by power
+  var auraColor=power<5?'#888':power<15?'#4caf50':power<30?'#42a5f5':power<60?'#ab47bc':power<120?'#ffa726':'#ef5350';
+  document.getElementById('dojo-aura').style.setProperty('--aura-c',auraColor);
+  // Body color from armor
+  var rarityColors={none:'#5a5a8a',E:'#aaa',D:'#4a7a4a',C:'#2a5a8a',B:'#5a2a7a',A:'#8a5a1a',S:'#8a1a1a',SS:'#8a2a6a',SSS:'#8a8a1a'};
+  var bodyC=rarityColors[(eq.armor&&eq.armor.rarity)||'none'];
+  document.getElementById('dc-body').style.background=bodyC+'44';
+  document.getElementById('dc-body').style.borderColor=bodyC;
+  document.getElementById('dc-body').textContent=eq.weapon?eq.weapon.ic:'✊';
+  document.getElementById('dc-arm-l').style.background=bodyC;
+  document.getElementById('dc-arm-r').style.background=bodyC;
+  // Face changes by power
+  document.getElementById('dc-face').textContent=power<5?'😤':power<20?'😠':power<50?'🔥':'💀';
+}
+
+function startDojoTimer(){
+  if(_dojo.interval)clearInterval(_dojo.interval);
+  _dojo.interval=setInterval(function(){
+    if(_dojo.paused)return;
+    _dojo.elapsed++;
+    renderDojoTime();
+    // Update stat pills every 30s
+    if(_dojo.elapsed%30===0)renderDojoStats();
+    // Auto-finish countdown
+    if(_dojo.mode==='down'&&_dojo.elapsed>=_dojo.targetMins*60){
+      finishDojo();
+    }
+  },1000);
+  renderDojoTime();
+  renderDojoStats();
+}
+
+function renderDojoTime(){
+  var sec=_dojo.mode==='up'?_dojo.elapsed:Math.max(0,_dojo.targetMins*60-_dojo.elapsed);
+  var m=Math.floor(sec/60),s=sec%60;
+  document.getElementById('dojo-time').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  document.getElementById('dojo-time-sub').textContent=_dojo.mode==='up'
+    ?'已练功 '+fmtNum(_dojo.elapsed/60)+' 分钟'
+    :'剩余时间';
+  // Update ring
+  if(_dojo.mode==='down'&&_dojo.targetMins>0){
+    var total2=_dojo.targetMins*60;
+    var pct=Math.min(1,_dojo.elapsed/total2);
+    var circ=2*Math.PI*88;
+    document.getElementById('dojo-ring-fill').style.strokeDashoffset=circ*pct;
+  }
+}
+
+function renderDojoStats(){
+  var mins=Math.floor(_dojo.elapsed/60)||1;
+  var dur=mins/60;
+  var dayAttr=compDayAttr(tod());
+  var pills=ATTRS.map(function(a){
+    return '<div class="dojo-stat-pill">'+a.ic+' '+fmtNum(dayAttr[a.k]||0)+'</div>';
+  }).join('');
+  document.getElementById('dojo-stat-pills').innerHTML=pills;
+}
+
+function toggleDojoPause(){
+  _dojo.paused=!_dojo.paused;
+  document.getElementById('dojo-pause-btn').textContent=_dojo.paused?'▶ 继续':'⏸ 暂停';
+  document.getElementById('dojo-char').classList.toggle('training',!_dojo.paused);
+}
+
+function finishDojo(){
+  clearInterval(_dojo.interval);
+  clearInterval(_dojo.animInterval);
+  clearInterval(_dojo.particleInterval);
+
+  var mins=Math.floor(_dojo.elapsed/60);
+  if(mins<1){showToast('练功不足1分钟，未记录');exitDojo();return;}
+  var dur=mins/60;
+
+  // Mark task done
+  if(_dojo.taskId){
+    var t=S.daily.find(function(x){return x.id===_dojo.taskId;});
+    if(t){
+      t.st='d';
+      if(!t.winStreak)t.winStreak=0;
+      t.winStreak++;t.loseStreak=0;
+    }
+  }
+  // Write slots
+  var act=_actionTask?parseActivity(_actionTask.n+' '+mins+'分钟'):null;
+  if(act)writeSlots(act.cat,act.sub,dur);
+
+  sv();
+  exitDojo();
+  renderDaily();
+  showToast('🔥 练功 '+mins+' 分钟完成！属性+'+fmtNum(dur));
+}
+
+function exitDojo(){
+  clearInterval(_dojo.interval);
+  clearInterval(_dojo.animInterval);
+  clearInterval(_dojo.particleInterval);
+  document.getElementById('dojo').classList.remove('open');
+  document.getElementById('dojo-particles').innerHTML='';
+}
+
+function drawDojoStars(){
+  var c=document.getElementById('dojo-stars');
+  if(!c)return;
+  c.width=window.innerWidth;c.height=window.innerHeight;
+  var ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  for(var i=0;i<150;i++){
+    ctx.beginPath();
+    ctx.arc(Math.random()*c.width,Math.random()*c.height,Math.random()*1.5,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,'+(Math.random()*0.7+0.1)+')';
+    ctx.fill();
+  }
+}
+
+function startDojoParticles(){
+  clearInterval(_dojo.particleInterval);
+  _dojo.particleInterval=setInterval(function(){
+    if(_dojo.paused)return;
+    var container=document.getElementById('dojo-particles');
+    if(!container)return;
+    var eq=S.equipment||{};
+    var total=compTotalAttr();
+    var power=Object.values(total).reduce(function(a,b){return a+b;},0);
+    var colors=power<5?['#ffffff40']:power<15?['#4cff8060','#ffffff40']:
+      power<30?['#42a5f560','#4cff8040']:power<60?['#ab47bc60','#42a5f540']:
+      ['#ef535060','#ffd70060','#7b68ee60'];
+    for(var i=0;i<3;i++){
+      var p=document.createElement('div');
+      p.className='dojo-particle';
+      p.style.left=(30+Math.random()*40)+'%';
+      p.style.bottom=(20+Math.random()*30)+'%';
+      p.style.background=colors[Math.floor(Math.random()*colors.length)];
+      p.style.width=p.style.height=(2+Math.random()*4)+'px';
+      p.style.animationDuration=(2+Math.random()*2)+'s';
+      container.appendChild(p);
+      setTimeout(function(el){el.remove();},4000,p);
+    }
+  },500);
+}
+
+
+// ============================================================
+// BAG + SHOP
+// ============================================================
+var _bagTab='equip';
+var SHOP_ITEMS=[
+  // Consumables
+  {id:'s1',tab:'consumable',name:'经验加速卷轴',ic:'📜',desc:'今日属性获得+50%（持续1小时）',price:50,gem:0,effect:'exp_boost'},
+  {id:'s2',tab:'consumable',name:'体力药水',ic:'🧪',desc:'立即恢复所有每日任务为待完成',price:80,gem:0,effect:'reset_daily'},
+  {id:'s3',tab:'consumable',name:'金币翻倍符',ic:'🪙',desc:'下次战斗金币奖励×2',price:0,gem:3,effect:'gold_double'},
+  {id:'s4',tab:'consumable',name:'神秘宝箱',ic:'📦',desc:'随机获得1件装备（E-B级）',price:200,gem:0,effect:'mystery_box'},
+  // Equipment shop
+  {id:'s5',tab:'equipment',name:'新手短剑',ic:'🗡️',desc:'E级武器，ATK+2，适合初学者',price:30,gem:0,effect:'give_item',itemId:'i1'},
+  {id:'s6',tab:'equipment',name:'皮革护甲',ic:'🥋',desc:'D级衣服，DEF+3',price:60,gem:0,effect:'give_item',itemId:'i2'},
+  {id:'s7',tab:'equipment',name:'铁制头盔',ic:'⛑️',desc:'D级头盔，DEF+2',price:50,gem:0,effect:'give_item',itemId:'i3'},
+  {id:'s8',tab:'equipment',name:'精铁长剑',ic:'⚔️',desc:'B级武器，ATK+8（高级）',price:0,gem:8,effect:'give_item',itemId:'i9'},
+  // Boosts
+  {id:'s9',tab:'boost',name:'全属性+1',ic:'⭐',desc:'永久提升全部属性各+1点',price:0,gem:5,effect:'attr_boost'},
+  {id:'s10',tab:'boost',name:'背包扩容',ic:'🎒',desc:'背包上限+10件',price:150,gem:0,effect:'bag_expand'},
+  {id:'s11',tab:'boost',name:'里世界通行证',ic:'🌀',desc:'降低所有隐兽需求属性-20%（永久）',price:0,gem:15,effect:'beast_discount'},
+];
+
+function renderBag(){
+  renderCurrency('bag-currency');
+  var inv=S.inventory||[];
+  var el=document.getElementById('bag-list');
+  if(!el)return;
+  if(_bagTab==='equip'){
+    if(!inv.length){el.innerHTML='<div class="bag-empty">背包是空的<br>去里世界击败隐兽获得装备！</div>';return;}
+    el.innerHTML=inv.map(function(item){
+      var equipped=S.equipment&&Object.values(S.equipment).some(function(e){return e&&e.id===item.id;});
+      return '<div class="bag-item">'
+        +'<div class="bag-item-ic">'+item.ic+'</div>'
+        +'<div class="bag-item-info">'
+        +'<div class="bag-item-name">'+item.name+'</div>'
+        +'<div class="bag-item-sub">'+diffBadgeHTML(item.rarity)+(equipped?' · <span style="color:#4caf50">已装备</span>':'')+'</div>'
+        +'</div>'
+        +(equipped
+          ?'<button class="bag-item-action" onclick="unequipFromBag(\''+item.id+'\')">卸下</button>'
+          :'<button class="bag-item-action" onclick="equipFromBag(\''+item.id+'\')">装备</button>')
+        +'</div>';
+    }).join('');
+  }else{
+    // Fragments tab - future feature
+    el.innerHTML='<div class="bag-empty">💠 技能碎片<br>击败高级隐兽后获得<br>（合成系统即将开放）</div>';
+  }
+}
+
+function switchBagTab(tab,el){
+  _bagTab=tab;
+  document.querySelectorAll('.bag-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  renderBag();
+}
+
+function equipFromBag(itemId){
+  var inv=S.inventory||[];
+  var item=inv.find(function(i){return i.id===itemId;});
+  if(!item)return;
+  if(!S.equipment)S.equipment={};
+  S.equipment[item.slot]=item;
+  sv();renderBag();showToast('✅ 已装备：'+item.name);
+}
+
+function unequipFromBag(itemId){
+  var inv=S.inventory||[];
+  var item=inv.find(function(i){return i.id===itemId;});
+  if(!item)return;
+  if(S.equipment&&S.equipment[item.slot]&&S.equipment[item.slot].id===itemId){
+    S.equipment[item.slot]=null;
+  }
+  sv();renderBag();showToast('已卸下：'+item.name);
+}
+
+var _shopTab='consumable';
+function renderShop(){
+  renderCurrency('shop-currency');
+  var items=SHOP_ITEMS.filter(function(i){return i.tab===_shopTab;});
+  var el=document.getElementById('shop-list');
+  if(!el)return;
+  el.innerHTML=items.map(function(item){
+    var canBuy=(item.gem>0?(S.gems||0)>=item.gem:(S.gold||0)>=item.price);
+    var priceHTML=item.gem>0?'💎 '+item.gem+' 宝石':'💰 '+item.price+' 金币';
+    return '<div class="shop-item">'
+      +'<div class="shop-item-top">'
+      +'<div class="shop-item-ic">'+item.ic+'</div>'
+      +'<div class="shop-item-info">'
+      +'<div class="shop-item-name">'+item.name+'</div>'
+      +'<div class="shop-item-desc">'+item.desc+'</div>'
+      +'</div></div>'
+      +'<div class="shop-item-buy">'
+      +'<div class="shop-item-price">'+priceHTML+'</div>'
+      +'<button class="shop-buy-btn" '+(canBuy?'':'disabled ')+'onclick="buyShopItem(\''+item.id+'\')">购买</button>'
+      +'</div></div>';
+  }).join('');
+}
+
+function switchShopTab(tab,el){
+  _shopTab=tab;
+  document.querySelectorAll('.shop-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  renderShop();
+}
+
+function buyShopItem(itemId){
+  var item=SHOP_ITEMS.find(function(i){return i.id===itemId;});
+  if(!item)return;
+  // Deduct cost
+  if(item.gem>0){if((S.gems||0)<item.gem){showToast('宝石不足！');return;}S.gems-=item.gem;}
+  else{if((S.gold||0)<item.price){showToast('金币不足！');return;}S.gold-=item.price;}
+  // Apply effect
+  if(item.effect==='give_item'){
+    var base=ITEM_POOL.find(function(i){return i.id===item.itemId;});
+    if(base){
+      var newItem=JSON.parse(JSON.stringify(base));
+      newItem.id='shop'+Date.now();
+      if(!S.inventory)S.inventory=[];
+      S.inventory.push(newItem);
+      showToast('🎁 获得：'+newItem.ic+' '+newItem.name);
+    }
+  }else if(item.effect==='reset_daily'){
+    S.daily.forEach(function(t){if(t.st==='d'||t.st==='f')t.st='p';});
+    renderDaily();showToast('💊 每日任务已重置！');
+  }else if(item.effect==='mystery_box'){
+    var rarities=['E','E','D','D','D','C','C','B'];
+    var r=rarities[Math.floor(Math.random()*rarities.length)];
+    var pool=ITEM_POOL.filter(function(i){return i.rarity===r;});
+    if(pool.length){
+      var drop=JSON.parse(JSON.stringify(pool[Math.floor(Math.random()*pool.length)]));
+      drop.id='box'+Date.now();
+      if(!S.inventory)S.inventory=[];
+      S.inventory.push(drop);
+      showToast('📦 开箱！获得：'+drop.ic+' '+drop.name);
+    }
+  }else if(item.effect==='attr_boost'){
+    ATTRS.forEach(function(a){
+      var today=tod();
+      if(!S.tl[today])S.tl[today]={};
+      S.tl[today]['boost_'+a.k+'_'+Date.now()]={cat:a.k,sub:'boost',boost:true};
+    });
+    showToast('⭐ 全属性+1永久提升！');
+  }else{
+    showToast('✅ 已购买：'+item.name);
+  }
+  sv();renderShop();renderCurrency('shop-currency');
+}
+
+
+var _currentWorld='real';
+
+// ============================================================
+// INTRO SEQUENCE
+// ============================================================
+var _introStep=0;
+var _introTyping=null;
+var INTRO_SCRIPT=[
+  {text:'……你醒了。\n\n这里是里世界。一个与你的现实平行的异次元空间。',btn:'继续'},
+  {text:'在这里，你的现实行为会化为力量。\n\n运动、读书、工作……每一件事，都能让你在里世界变得更强。',btn:'然后呢？'},
+  {text:'我是漩涡，你的向导。\n\n你随时可以通过那个漩涡门户穿越回表世界——也就是你的现实——去积累力量。',btn:'我明白了'},
+  {text:'力量越强，你就能探索更深处，击败更强大的隐兽，揭开里世界的秘密。\n\n现在……告诉我你的名字吧。',btn:'告诉你我的名字'},
+];
+
+function startIntro(){
+  // Draw stars
+  var c=document.getElementById('intro-stars');
+  if(c){
+    c.width=window.innerWidth;c.height=window.innerHeight;
+    var ctx=c.getContext('2d');
+    for(var i=0;i<250;i++){
+      ctx.beginPath();
+      ctx.arc(Math.random()*c.width,Math.random()*c.height,Math.random()*1.8,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,255,'+(Math.random()*.9+.1)+')';
+      ctx.fill();
+    }
+  }
+  // Phase 0: awakening animation
+  setTimeout(function(){
+    document.getElementById('intro-p0').classList.add('show');
+    setTimeout(function(){
+      document.getElementById('intro-title').textContent='里世界';
+      document.getElementById('intro-title').style.color='#a78bfa';
+      document.getElementById('intro-sub').textContent='你缓缓睁开了眼睛';
+      setTimeout(function(){
+        // Fade out phase 0, show phase 1
+        document.getElementById('intro-p0').style.opacity='0';
+        setTimeout(function(){
+          document.getElementById('intro-p0').style.display='none';
+          document.getElementById('intro-p1').classList.add('show');
+          introTypeStep(0);
+        },600);
+      },1500);
+    },800);
+  },400);
+}
+
+function introTypeStep(step){
+  _introStep=step;
+  if(step>=INTRO_SCRIPT.length){
+    // Show name input
+    document.getElementById('intro-p1').style.opacity='0';
+    setTimeout(function(){
+      document.getElementById('intro-p1').style.display='none';
+      document.getElementById('intro-p2').classList.add('show');
+      var inp=document.getElementById('intro-name');
+      if(inp)setTimeout(function(){inp.focus();},300);
+    },500);
+    return;
+  }
+  var sc=INTRO_SCRIPT[step];
+  var el=document.getElementById('intro-npc-text');
+  var btn=document.getElementById('intro-next');
+  btn.style.display='none';
+  el.innerHTML='';
+  var text=sc.text,i=0;
+  clearTimeout(_introTyping);
+  function type(){
+    if(i<text.length){
+      el.innerHTML=text.substring(0,i+1).replace(/\n/g,'<br>')+'<span class="intro-cursor"></span>';
+      i++;
+      _introTyping=setTimeout(type,i<3?0:22);
+    }else{
+      el.innerHTML=text.replace(/\n/g,'<br>');
+      btn.textContent=sc.btn+' ›';
+      btn.style.display='block';
+    }
+  }
+  // Click to skip
+  el.onclick=function(){
+    clearTimeout(_introTyping);
+    el.innerHTML=text.replace(/\n/g,'<br>');
+    btn.textContent=sc.btn+' ›';
+    btn.style.display='block';
+    el.onclick=null;
+  };
+  type();
+}
+
+function introNext(){
+  introTypeStep(_introStep+1);
+}
+
+function introConfirmName(){
+  var val=document.getElementById('intro-name').value.trim();
+  if(!val){document.getElementById('intro-name').style.borderColor='#ef5350';return;}
+  S.playerName=val;
+  S.firstRun=false;
+  sv();
+  // Hide intro with fade
+  var ov=document.getElementById('intro-overlay');
+  ov.style.transition='opacity .6s';
+  ov.style.opacity='0';
+  setTimeout(function(){
+    ov.classList.add('hidden');
+    // Start in inner world / village
+    switchWorld('inner');
+    renderVillage();
+    // After a beat, AI guide says hello
+    setTimeout(function(){
+      openNPC('guide');
+    },800);
+  },600);
+}
+
+function skipIntro(){
+  if(!S.playerName||S.playerName==='玩家'){
+    var name=prompt('先告诉我你的名字：','冒险者');
+    if(name&&name.trim())S.playerName=name.trim();
+  }
+  S.firstRun=false;sv();
+  document.getElementById('intro-overlay').classList.add('hidden');
+  switchWorld('inner');
+}
+
+
+// ============================================================
+// WORLD TRANSITION ANIMATION
+// ============================================================
+var _transitioning=false;
+
+function switchWorld(world){
+  if(_transitioning)return;
+  var wt=document.getElementById('world-transition');
+  if(!wt)return;
+  wt.style.display='flex';
+  var fromWorld=_currentWorld;
+  if(fromWorld===world){
+    // Just refresh the UI
+    _applyWorld(world);return;
+  }
+  _transitioning=true;
+
+  var total=compTotalAttr();
+  var power=Object.values(total).reduce(function(a,b){return a+b;},0);
+  var playerIc=power<5?'🧙':power<20?'🧙‍♂️':power<50?'🧝':power<100?'🦸':'🦹';
+
+  var wt=document.getElementById('world-transition');
+  var bg=document.getElementById('wt-bg');
+  var player=document.getElementById('wt-player');
+  var v1=document.getElementById('wt-v1');
+  var v2=document.getElementById('wt-v2');
+  var v3=document.getElementById('wt-v3');
+  var label=document.getElementById('wt-label');
+
+  // Set player emoji
+  player.textContent=playerIc;
+
+  // Animate: player appears, walks toward vortex, vortex expands, screen flashes
+  wt.style.opacity='1';
+  wt.style.pointerEvents='all';
+  player.style.opacity='1';
+  player.style.transform='scale(1) translateY(0)';
+
+  // Step 1: Show vortex rings spinning
+  v1.style.opacity='0.9';v2.style.opacity='0.6';v3.style.opacity='0.3';
+  v1.style.animation='spin 1s linear infinite';
+  v2.style.animation='spin 1.5s linear reverse infinite';
+  v3.style.animation='spin 2s linear infinite';
+
+  var goingToInner=(world==='inner');
+  label.textContent=goingToInner?'进入里世界…':'回到表世界…';
+  label.style.color=goingToInner?'#a78bfa':'#ff9500';
+  label.style.opacity='1';
+
+  // Step 2: Player walks into vortex
+  setTimeout(function(){
+    player.style.transform='scale(0.05) translateY(0)';
+    player.style.opacity='0';
+    v1.style.transform='scale(4)';v1.style.opacity='0';
+    v2.style.transform='scale(3)';v2.style.opacity='0';
+    v3.style.transform='scale(2)';v3.style.opacity='0';
+  },400);
+
+  // Step 3: Flash black
+  setTimeout(function(){
+    bg.style.opacity='1';
+    label.style.opacity='0';
+  },900);
+
+  // Step 4: Switch world, fade in
+  setTimeout(function(){
+    _currentWorld=world;
+    _applyWorld(world);
+    // Reset vortex
+    v1.style.transition='none';v2.style.transition='none';v3.style.transition='none';
+    v1.style.transform='';v2.style.transform='';v3.style.transform='';
+    v1.style.opacity='0';v2.style.opacity='0';v3.style.opacity='0';
+    player.style.transition='none';
+    player.style.transform='scale(1)';player.style.opacity='0';
+    setTimeout(function(){
+      v1.style.transition='';v2.style.transition='';v3.style.transition='';
+      player.style.transition='';
+    },50);
+  },1100);
+
+  // Step 5: Fade out overlay then hide
+  setTimeout(function(){
+    bg.style.opacity='0';
+    wt.style.opacity='0';
+    v1.style.opacity='0';v2.style.opacity='0';v3.style.opacity='0';
+    v1.style.animation='none';v2.style.animation='none';v3.style.animation='none';
+    setTimeout(function(){
+      wt.style.display='none';
+      wt.style.opacity='1';
+      _transitioning=false;
+    },400);
+  },1600);
+}
+
+function _applyWorld(world){
+  var realNav=document.getElementById('nav');
+  var innerNav=document.getElementById('nav-inner');
+  var realBtn=document.getElementById('nwb-real');
+  var innerBtn=document.getElementById('nwb-inner');
+  if(!realNav||!innerNav)return;
+  if(world==='real'){
+    realNav.style.display='flex';
+    innerNav.style.display='none';
+    if(realBtn)realBtn.className='nwb-btn real-active';
+    if(innerBtn)innerBtn.className='nwb-btn';
+    var nb=document.getElementById('nb-ai');
+    if(nb)nav('ai',nb);
+  }else{
+    realNav.style.display='none';
+    innerNav.style.display='flex';
+    if(realBtn)realBtn.className='nwb-btn';
+    if(innerBtn)innerBtn.className='nwb-btn inner-active';
+    var nb=document.getElementById('nb-village');
+    if(nb)nav('village',nb);
+  }
+}
+
+// Add spin keyframe CSS dynamically
+(function(){
+  var s=document.createElement('style');
+  s.textContent='@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}';
+  document.head.appendChild(s);
+})();
+
+
+
+// ============================================================
+// NPC DIALOG SYSTEM
+// ============================================================
+var _npcTyping=null;
+var NPC_DATA={
+  elder:{
+    portrait:'👴',name:'村长·老银',
+    greet:function(){
+      var name=S.playerName||'冒险者';
+      var lvl=Math.floor(Object.values(compTotalAttr()).reduce(function(a,b){return a+b;},0)/10)+1;
+      if(lvl<=1)return '欢迎来到新手村，'+name+'！\n\n我是这里的村长老银。你刚刚踏入这个世界，一切都还很陌生吧？\n\n记住：你在表世界的每一个行动，都会化为这里的力量。运动、学习、工作……都是你成长的源泉。';
+      return ''+name+'，你已经是Lv.'+lvl+'的冒险者了！\n\n村子里的人都在议论你的成就。继续保持，传说级别的冒险者就在不远处等着你！';
+    },
+    choices:[
+      {text:'告诉我这个世界的规则',next:'rules'},
+      {text:'我想了解如何变强',next:'power'},
+      {text:'有什么任务给我吗？',next:'quest'},
+      {text:'先这样吧，再见',next:'bye'},
+    ],
+    rules:'这个世界分为两层：\n\n☀️ 表世界 — 就是你的现实生活。每一件你做的事，都会转化为属性和经验。\n\n🌙 里世界 — 这里，你的属性之战。击败隐兽，获得装备，不断变强！\n\n两个世界相互影响。现实越努力，里世界就越强大。',
+    power:'想要变强？答案其实很简单：\n\n💪 力量 → 运动健身\n🧠 智力 → 读书学习\n⚡ 敏捷 → 瑜伽/灵活训练\n❤️ 生命 → 作息规律/冥想\n⭐ 自由 → 创作/休闲\n\n在表世界积累属性，才能在里世界真正发挥实力。',
+    quest:'当然！作为新来的冒险者，有几件事你必须完成：\n\n1. 在时间轨迹记录你的第一天\n2. 完成3项每日挑战\n3. 在野外击败你的第一只隐兽\n\n完成后回来找我，我有特别的奖励！',
+    bye:'好的，有需要随时来找我。新手村永远是你的安全港。',
+  },
+  trainer:{
+    portrait:'💪',name:'训练师·铁拳',
+    greet:function(){
+      var power=(compTotalAttr().power||0);
+      if(power<3)return '哟，新来的！看你那细胳膊细腿的……\n\n没关系，人人都是从零开始的。\n\n想变强？回到表世界去健身！每次运动都能提升力量属性。力量够了，来找我挑战吧！';
+      return '不错嘛！力量已经有'+fmtNum(power)+'了！\n\n继续保持运动，你距离真正的战士越来越近了。';
+    },
+    choices:[
+      {text:'教我如何提升力量',next:'train'},
+      {text:'我能挑战什么？',next:'challenge'},
+      {text:'先走了',next:'bye'},
+    ],
+    train:'提升力量的方法很简单：\n\n去表世界的AI，告诉它「健身了1小时」或者点击每日挑战里的「健身」，开启道场计时！\n\n每15分钟 = +0.25力量\n每天坚持1小时 = +1.0力量\n\n力量越高，攻击隐兽越猛！',
+    challenge:'根据你现在的力量，建议挑战：\n\n· 力量<5：E级迷失之影（在野外入口）\n· 力量5-15：D级荒野狼魂\n· 力量15+：C级熔岩蜥蜴\n\n去野外找隐兽吧！',
+    bye:'记住，真正的强者不是天生的，是练出来的！',
+  },
+  scholar:{
+    portrait:'📖',name:'学者·暮星',
+    greet:function(){
+      var intel=(compTotalAttr().intel||0);
+      if(intel<3)return '啊，新来的冒险者……\n\n知识是最强大的武器，可惜很多人都忽视了这一点。\n\n去读书吧，去学习吧。每一页书，都是你智力的成长。';
+      return '智力'+fmtNum(intel)+'……还不错，但还远远不够。\n\n真正的智者，永远在追求更多的知识。图书馆的秘籍正等待着你。';
+    },
+    choices:[
+      {text:'智力有什么用？',next:'intel'},
+      {text:'告诉我里世界的秘密',next:'secret'},
+      {text:'再见',next:'bye'},
+    ],
+    intel:'智力在里世界有多重要？\n\n🧠 智力高 → 魔法类装备解锁（秘典、项链）\n🧠 智力高 → 与部分NPC有特殊对话\n🧠 智力高 → 识破隐兽弱点，伤害+20%\n\n在表世界：读书、学习、工作都能提升智力。',
+    secret:'里世界的秘密……\n\n传说在更深处，有远古隐兽「虚空之主」。它需要总属性500才能挑战。\n\n还有……据说当你各属性都超过50时，新手村会发生某些变化……\n\n这是我能透露的极限了。',
+    bye:'愿知识永远照亮你前行的路。',
+  },
+  guide:{
+    portrait:'🌀',name:'向导·漩涡',
+    greet:function(){
+      return '欢迎来到新手村，'+S.playerName+'！\n\n你已经在里世界醒来了。现在，你需要去表世界积累力量。\n\n看到地图中央的漩涡了吗？走进去，就能回到表世界。在那里记录你的行动，力量就会增长！';
+    },
+    choices:[
+      {text:'表世界是什么？',next:'realworld'},
+      {text:'怎么变强？',next:'power'},
+      {text:'我准备好了！',next:'ready'},
+    ],
+    realworld:'表世界就是你的现实生活。\n\n☀️ 告诉AI你做了什么（「健身了1小时」）\n☀️ 在时间轨迹记录你的时间\n☀️ 完成每日挑战\n\n这些行动会转化为你的属性，让你在里世界变得更强大！',
+    power:'力量来源于现实：\n\n💪 运动健身 → 力量\n🧠 读书学习 → 智力\n⚡ 瑜伽伸展 → 敏捷\n❤️ 规律作息 → 生命值\n⭐ 休闲创作 → 自由点\n\n属性越高，隐兽就越容易被击败！',
+    ready:'很好！记住：\n\n1. 走进漩涡 → 回表世界积累力量\n2. 再走进漩涡 → 回到里世界战斗\n3. 村里的NPC随时可以找\n\n你的旅程，就从现在开始！',
+    bye:'随时回来找我。漩涡永远为你开着。',
+  }
+};
+
+var _npcCurrent=null,_npcState='greet';
+
+function openNPC(npcId){
+  var npc=NPC_DATA[npcId];
+  if(!npc)return;
+  _npcCurrent=npcId;
+  _npcState='greet';
+  document.getElementById('npc-portrait').textContent=npc.portrait;
+  document.getElementById('npc-name').textContent=npc.name;
+  var greetText=typeof npc.greet==='function'?npc.greet():npc.greet;
+  npcTypeText(greetText,npc.choices);
+  document.getElementById('npc-dialog').classList.add('open');
+}
+
+function npcTypeText(text,choices){
+  clearTimeout(_npcTyping);
+  var el=document.getElementById('npc-text');
+  el.textContent='';
+  var cursor='<span class="npc-text-cursor"></span>';
+  var i=0,chars=text.split('');
+  var choicesEl=document.getElementById('npc-choices');
+  choicesEl.innerHTML='';
+
+  function type(){
+    if(i<chars.length){
+      el.innerHTML=text.substring(0,i+1).replace(/\n/g,'<br>')+cursor;
+      i++;
+      _npcTyping=setTimeout(type,i<20?0:18);
+    }else{
+      el.innerHTML=text.replace(/\n/g,'<br>');
+      if(choices&&choices.length){
+        choicesEl.innerHTML=choices.map(function(c){
+          return '<button class="npc-choice" onclick="npcChoose(\''+c.next+'\')">▶ '+c.text+'</button>';
+        }).join('');
+      }
+    }
+  }
+  type();
+  // Click to skip typing
+  el.onclick=function(){
+    clearTimeout(_npcTyping);
+    el.innerHTML=text.replace(/\n/g,'<br>');
+    el.onclick=null;
+    if(choices&&choices.length){
+      choicesEl.innerHTML=choices.map(function(c){
+        return '<button class="npc-choice" onclick="npcChoose(\''+c.next+'\')">▶ '+c.text+'</button>';
+      }).join('');
+    }
+  };
+}
+
+function npcChoose(key){
+  var npc=NPC_DATA[_npcCurrent];
+  if(!npc)return;
+  if(key==='bye'){
+    npcTypeText(npc.bye||'再见！',[]);
+    setTimeout(closeNPC,1800);
+    return;
+  }
+  var text=npc[key]||'...';
+  // Back to main choices after showing content
+  npcTypeText(text,npc.choices);
+}
+
+function closeNPC(){
+  document.getElementById('npc-dialog').classList.remove('open');
+  _npcCurrent=null;
+}
+
+// ============================================================
+// VILLAGE RENDER
+// ============================================================
+function renderVillage(){
+  document.getElementById('v-gold').textContent=S.gold||0;
+  document.getElementById('v-gem').textContent=S.gems||0;
+  // Update player emoji based on equipment
+  var eq=S.equipment||{};
+  var total=compTotalAttr();
+  var power=Object.values(total).reduce(function(a,b){return a+b;},0);
+  var playerIc=power<5?'🧙':power<20?'🧙‍♂️':power<50?'🧝':power<100?'🦸':'🦹';
+  var vp=document.getElementById('village-player');
+  if(vp)vp.textContent=playerIc;
+  // Stars & fireflies
+  drawVillageStars();
+  spawnFireflies();
+}
+
+function drawVillageStars(){
+  var c=document.getElementById('village-stars');
+  if(!c||!c.offsetWidth)return;
+  c.width=c.offsetWidth;c.height=c.offsetHeight;
+  var ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  for(var i=0;i<200;i++){
+    var x=Math.random()*c.width;
+    var y=Math.random()*c.height*0.6;
+    var r=Math.random()*1.5+.3;
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,'+(Math.random()*.8+.2)+')';
+    ctx.fill();
+  }
+}
+
+function spawnFireflies(){
+  var container=document.getElementById('village-fireflies');
+  if(!container)return;
+  container.innerHTML='';
+  for(var i=0;i<12;i++){
+    var f=document.createElement('div');
+    f.className='village-firefly';
+    f.style.left=(10+Math.random()*80)+'%';
+    f.style.bottom=(20+Math.random()*40)+'%';
+    f.style.setProperty('--fx',(Math.random()*60-30)+'px');
+    f.style.setProperty('--fy',(-30-Math.random()*60)+'px');
+    f.style.animationDuration=(3+Math.random()*4)+'s';
+    f.style.animationDelay=(Math.random()*4)+'s';
+    container.appendChild(f);
+  }
+}
+
 // ============================================================
 // INIT
 // ============================================================
@@ -1223,8 +3310,174 @@ renderHeader();
 renderAI();
 midnightCheck();
 checkDelayed();
+initNewbie();
+renderNewbieBanner();
 setInterval(function(){renderHeader();midnightCheck();checkDelayed();},60000);
+// First run: show intro. Returning player: start in inner world
+if(S.firstRun!==false){
+  startIntro();
+}else{
+  document.getElementById('intro-overlay').classList.add('hidden');
+  switchWorld('inner');
+}
 </script>
+
+<!-- TASK ACTION SHEET -->
+<div class="task-action-sheet" id="task-action-sheet">
+  <div class="task-action-bg" onclick="closeTaskAction()"></div>
+  <div class="task-action-box" id="task-action-box"></div>
+</div>
+
+<!-- DOJO -->
+<div id="dojo">
+  <div class="dojo-bg"></div>
+  <canvas class="dojo-stars" id="dojo-stars"></canvas>
+  <div class="dojo-content">
+    <div class="dojo-header">
+      <div>
+        <div class="dojo-task-name" id="dojo-task-name">练功中</div>
+        <div style="font-size:11px;color:#7b68ee" id="dojo-mode-label">正计时</div>
+      </div>
+      <button class="dojo-close-btn" onclick="exitDojo()">✕</button>
+    </div>
+    <div class="dojo-timer">
+      <div class="dojo-time-big" id="dojo-time">00:00</div>
+      <div class="dojo-time-label" id="dojo-time-sub">已练功时长</div>
+    </div>
+    <!-- Progress ring for countdown -->
+    <div class="dojo-progress-ring" id="dojo-ring" style="display:none">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="88" fill="none" stroke="#ffffff0a" stroke-width="8"/>
+        <circle id="dojo-ring-fill" cx="100" cy="100" r="88" fill="none" stroke="#7b68ee" stroke-width="8"
+          stroke-dasharray="553" stroke-dashoffset="0" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <!-- Character stage -->
+    <div class="dojo-stage">
+      <div class="dojo-char training" id="dojo-char">
+        <div class="dc-head" id="dc-face">😤</div>
+        <div class="dc-body" id="dc-body" style="background:#5a5a8a44;border:2px solid #5a5a8a">⚔️</div>
+        <div class="dc-arm-l" id="dc-arm-l" style="background:#5a5a8a"></div>
+        <div class="dc-arm-r" id="dc-arm-r" style="background:#5a5a8a"></div>
+        <div class="dc-legs">
+          <div class="dc-leg" style="background:#3a3a6a"></div>
+          <div class="dc-leg" style="background:#3a3a6a"></div>
+        </div>
+        <div class="dojo-aura" id="dojo-aura"></div>
+      </div>
+      <div id="dojo-particles" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+    </div>
+    <div class="dojo-controls">
+      <div class="dojo-stat-pills" id="dojo-stat-pills"></div>
+      <button class="dojo-finish-btn" onclick="finishDojo()">✅ 完成练功</button>
+      <button class="dojo-pause-btn" id="dojo-pause-btn" onclick="toggleDojoPause()">⏸ 暂停</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- =============== INTRO OVERLAY =============== -->
+<div id="intro-overlay">
+  <canvas class="intro-stars" id="intro-stars"></canvas>
+  <div class="intro-content" id="intro-content">
+    <!-- Phase 0: Awakening -->
+    <div id="intro-p0" class="intro-phase">
+      <div class="intro-char" id="intro-char">🧙</div>
+      <div class="intro-title" id="intro-title">…………</div>
+      <div class="intro-sub" id="intro-sub">意识缓缓恢复</div>
+    </div>
+    <!-- Phase 1: NPC Intro -->
+    <div id="intro-p1" class="intro-phase" style="width:100%">
+      <div class="intro-npc-box">
+        <div class="intro-npc-portrait">🌀</div>
+        <div class="intro-npc-name">向导 · 漩涡</div>
+        <div class="intro-npc-text" id="intro-npc-text"></div>
+      </div>
+      <button class="intro-next-btn" id="intro-next" onclick="introNext()" style="display:none;max-width:320px">继续 ›</button>
+    </div>
+    <!-- Phase 2: Name input -->
+    <div id="intro-p2" class="intro-phase" style="width:100%">
+      <div class="intro-npc-box">
+        <div class="intro-npc-portrait">🌀</div>
+        <div class="intro-npc-name">向导 · 漩涡</div>
+        <div class="intro-npc-text">你好，旅行者。
+在这个世界，你叫什么名字？</div>
+      </div>
+      <div style="max-width:320px;margin:0 auto;width:100%">
+        <input class="intro-name-input" id="intro-name" placeholder="输入你的名字" maxlength="10">
+        <button class="intro-next-btn" onclick="introConfirmName()">进入里世界 🌙</button>
+      </div>
+    </div>
+  </div>
+  <div class="intro-skip" onclick="skipIntro()">跳过新手教程</div>
+</div>
+
+<!-- =============== WORLD TRANSITION =============== -->
+<div id="world-transition" style="display:none">
+  <div class="wt-bg" id="wt-bg" style="background:#000;opacity:0;transition:opacity .4s;position:absolute;inset:0"></div>
+  <div class="wt-vortex-wrap" id="wt-wrap">
+    <div class="wt-player" id="wt-player">🧙</div>
+    <!-- Vortex rings -->
+    <div class="wt-vortex" id="wt-v1" style="width:80px;height:80px;border:3px solid #7b68ee;opacity:0"></div>
+    <div class="wt-vortex" id="wt-v2" style="width:160px;height:160px;border:2px solid #4a2a8a;opacity:0"></div>
+    <div class="wt-vortex" id="wt-v3" style="width:280px;height:280px;border:1px solid #2a1a4a;opacity:0"></div>
+  </div>
+  <div class="wt-label" id="wt-label"></div>
+</div>
+
+
+<!-- ==================== BATTLE SCREEN ==================== -->
+<div id="battle-screen">
+  <div class="bs-bg"></div>
+  <canvas id="bs-stars" style="position:absolute;inset:0;pointer-events:none"></canvas>
+  <div class="bs-content">
+    <div class="bs-topbar">
+      <button class="bs-flee" onclick="battleFlee()">🏃 逃跑</button>
+      <div class="bs-turn-badge" id="bs-turn">回合 1</div>
+    </div>
+    <div class="bs-arena">
+      <!-- Enemy -->
+      <div class="bs-enemy-area">
+        <div class="bs-enemy-sprite" id="bs-enemy-sprite">👹</div>
+        <div class="bs-enemy-name" id="bs-enemy-name">隐兽</div>
+        <div class="bs-enemy-hp-wrap">
+          <div class="bs-hp-label"><span>HP</span><span id="bs-enemy-hp-txt">100/100</span></div>
+          <div class="bs-hp-bar"><div class="bs-hp-fill" id="bs-enemy-hp-fill" style="width:100%;background:#ef5350"></div></div>
+        </div>
+      </div>
+      <!-- Battle Log -->
+      <div class="bs-log-area" id="bs-log"></div>
+      <!-- Player -->
+      <div class="bs-player-area">
+        <div class="bs-player-sprite" id="bs-player-sprite">🧙</div>
+        <div class="bs-player-stats">
+          <div class="bs-player-name" id="bs-player-name">冒险者</div>
+          <div class="bs-hp-label"><span style="color:#4caf50">❤️ HP</span><span id="bs-player-hp-txt" style="color:#4caf50">100/100</span></div>
+          <div class="bs-player-hp-bar"><div class="bs-player-hp-fill" id="bs-player-hp-fill" style="width:100%"></div></div>
+          <div class="bs-hp-label" style="margin-top:4px"><span style="color:#2196f3">💧 MP</span><span id="bs-player-mp-txt" style="color:#2196f3">50/50</span></div>
+          <div class="bs-player-mp-bar"><div class="bs-player-mp-fill" id="bs-player-mp-fill" style="width:100%"></div></div>
+          <div class="bs-stat-row" id="bs-player-statrow"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Skills -->
+    <div class="bs-skills">
+      <div class="bs-skills-label">⚔️ 技能</div>
+      <div class="bs-skill-grid" id="bs-skill-grid"></div>
+    </div>
+  </div>
+  <!-- Result overlay -->
+  <div class="bs-result" id="bs-result" style="display:none">
+    <div class="bs-result-title" id="bs-result-title">胜利！</div>
+    <div class="bs-result-rewards" id="bs-result-rewards"></div>
+    <button class="bs-result-btn" id="bs-result-btn" onclick="closeBattleScreen()">继续</button>
+  </div>
+  <!-- Floating numbers container -->
+  <div id="bs-floats" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+</div>
+
+<div id="toast" class="toast"></div>
 </body>
 </html>
+
 
